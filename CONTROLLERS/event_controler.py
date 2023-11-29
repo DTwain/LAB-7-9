@@ -22,4 +22,7 @@ class event_controler:
         old_event = self.__repository_events.update_event(updated_event, id)
         return old_event
     
+    def find_event_by_id(self, event_id):
+        return self.__repository_events.get_event_through_id(event_id)
+    
     

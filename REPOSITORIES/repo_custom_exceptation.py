@@ -12,4 +12,4 @@ class dublicated_id_exception(repo_custom_exceptation):
     
 class inexistent_id_exception(repo_custom_exceptation):
     def __init__(self, id):
-        super().__init__(f"EROOR: Id-ul nu exista in lista de persoane! < {id} >")
+        super().__init__(f"EROOR: Id-ul nu exista! < {id} >")

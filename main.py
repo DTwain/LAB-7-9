@@ -12,19 +12,24 @@ from UI.run_console import UI
 from DOMAIN.VALIDARI.validation_exceptions import vid_city_exception
 from DOMAIN.VALIDARI.validation_exceptions import vid_house_number_exception
 
+from REPOSITORIES.DTO import DTO_for_second_report
+
 if __name__ == '__main__':
-    r_events = repo_events
-    r_people = repo_people
+    r_events = repo_events()
+    r_people = repo_people()
 
-    person_validator = valid_person
-    event_validator = valid_event
+    person_validator = valid_person()
+    event_validator = valid_event()
 
-    pers_controler = person_controler(r_people, person_validator)
     ev_controler = event_controler(r_events, event_validator)
-    #rrr_controler = raport_controler(r_people, r_events)
+    pers_controler = person_controler(r_people, person_validator, ev_controler)
+    rrr_controler = raport_controler(r_people, r_events)
 
     event_1 = event_class("1", "12/2/2020", "120", "Concertul lui travis Scott")
-    event_2 = event_class("2", "29/2/2022", "200", "Serbarea clasei a 3 - a")
+    event_2 = event_class("2", "28/2/2022", "200", "Serbarea clasei a 3 - a")
+
+    ev_controler.add_event("1", "12/2/2020", "120", "Kylie Jenner s-a despartit de Travis Scott")
+    ev_controler.add_event("2", "28/2/2022", "200", "Serbarea clasei a 3 - a")
     
     event_validator.event_validation(event_1)
     try:
@@ -41,21 +46,29 @@ if __name__ == '__main__':
     pers = pers_controler.update_person("2", "Pecsar Miruna", "ROmania", "SUCEAVA", "Zorilor", "122")
     print(f"{pers} \n")
 
-    pers_controler.remove_person("2")
-    pers_controler.afisare_persoane()
     print("ceva")
 
     person_1 = person_class("1", "Popescu Niculae", "ROmania", "Tulcea", "Zorilor", "122")
     person_2 = person_class("3", "Predoae Vasile", "Romania", "", "Independentei", "")
 
+
+    pers_controler.afisare_persoane()
     pers_controler.add_event_to_person("1", "1")
     pers_controler.add_event_to_person("1", "2")
-    print("------------------\n")
+    pers_controler.add_event_to_person("2", "1")
     pers_controler.afisare_persoane()
-    print("------------------\n")
-    print("evenimentele persoanei cu id-ul 1 sunt: ")
-    rrr_controler.first_raport("1")
-    print("------------------\n")
+    print("----------------")
+    #pers_controler.add_event_to_person("1", "3")
+    sorted_list = rrr_controler.first_raport("1")
+    for elem in sorted_list:
+        print(elem)
+    print("----------------")
+
+    print("-----------------------------")
+    report_2_rezult = rrr_controler.second_raport()
+    for person in report_2_rezult:
+        print(person)
+    print("-----------------------------")
     person_validator.person_validation(person_1)
     try:
         person_validator.person_validation(person_2)
@@ -64,5 +77,7 @@ if __name__ == '__main__':
         print("trebuie recitit_orasul")
     except vid_house_number_exception:
         print("trebuie recitit numarul casei")
+    pers_controler.afisare_persoane()
+
     ui = UI(r_events, r_people)
     ui.run_C()

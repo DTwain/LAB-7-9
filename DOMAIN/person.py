@@ -3,11 +3,11 @@ class person_class(address_class):
     def __init__(self, id, name, country, city, street, number):
         self.__id = id
         self.__name = name
-        address_class.__init__(self, country, city, street, number)
-        self.__events = []
+        super().__init__(country, city, street, number)
+        self.__joined_events = []
 
     def add_event_to_person(self, id_event):
-        self.__events.append(id_event)
+        self.__joined_events.append(id_event)
 
     def get_person_id(self):
         return self.__id
@@ -15,11 +15,15 @@ class person_class(address_class):
     def get_person_name(self):
         return self.__name
     
-    def get_events(self):
-        return self.__events
+    def get_events_id(self):
+        return self.__joined_events
+    
+    def number_of_event_added(self):
+        return len(self.__joined_events)
 
     def __str__(self):
         address_info = super().__str__()
-        return self.__id + " | " + self.__name + " | " + address_info + " | " + str(self.__events)
+        joined_events_as_str = "[" + ", ".join(map(str, self.__joined_events)) + "]"
+        return self.__id + " | " + self.__name + " | " + address_info + " | " + joined_events_as_str
 
     
