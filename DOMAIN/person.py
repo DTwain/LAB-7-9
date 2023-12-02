@@ -18,12 +18,12 @@ class person_class(address_class):
     def get_events_id(self):
         return self.__joined_events
     
-    def number_of_event_added(self):
+    def number_of_events_added(self):
         return len(self.__joined_events)
 
     def __str__(self):
         address_info = super().__str__()
         joined_events_as_str = "[" + ", ".join(map(str, self.__joined_events)) + "]"
-        return self.__id + " | " + self.__name + " | " + address_info + " | " + joined_events_as_str
+        return "ID:        " + self.__id + "\nName:      " + self.__name + "\n" + address_info + "\nID - urile ev. la care participa: " + joined_events_as_str
 
     

@@ -1,9 +1,4 @@
-from DOMAIN.VALIDARI.validation_exceptions import vid_id_exception
-from DOMAIN.VALIDARI.validation_exceptions import vid_name_exception
-from DOMAIN.VALIDARI.validation_exceptions import vid_country_exception
-from DOMAIN.VALIDARI.validation_exceptions import vid_city_exception
-from DOMAIN.VALIDARI.validation_exceptions import vid_street_exception
-from DOMAIN.VALIDARI.validation_exceptions import vid_house_number_exception
+from MY_CUSTOM_EXCEPTIONS.validation_exceptions import vid_name_exception, vid_country_exception, vid_city_exception, vid_street_exception, vid_house_number_exception, vid_person_id_exception
 class valid_person:
     @staticmethod
     def person_validation(person):
@@ -23,7 +18,7 @@ class valid_person:
     @staticmethod
     def person_id_validation(person_id):
         if person_id == "":
-            raise vid_id_exception
+            raise vid_person_id_exception
     
     @staticmethod
     def person_name_validation(person_name):

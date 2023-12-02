@@ -18,5 +18,5 @@ class address_class:
         return self.__number
     
     def __str__(self):
-        return self.__country + " | " + self.__city + " | " + self.__street + " | " + self.__number
+        return "Tara:      " + self.__country + "\nOras:      " + self.__city + "\nStrada:    " + self.__street + "\nNumar:     " + self.__number
     

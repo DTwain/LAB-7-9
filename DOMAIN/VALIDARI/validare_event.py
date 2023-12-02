@@ -1,11 +1,5 @@
 import re
-from DOMAIN.VALIDARI.validation_exceptions import vid_id_exception
-from DOMAIN.VALIDARI.validation_exceptions import invalid_date_character
-from DOMAIN.VALIDARI.validation_exceptions import invalid_day, invalid_month, invalid_year
-from DOMAIN.VALIDARI.validation_exceptions import multiple_dots_in_event_duration
-from DOMAIN.VALIDARI.validation_exceptions import invalid_event_duration_character
-from DOMAIN.VALIDARI.validation_exceptions import comma_not_supported_in_float_values
-from DOMAIN.VALIDARI.validation_exceptions import date_incomplete
+from MY_CUSTOM_EXCEPTIONS.validation_exceptions import vid_event_id_exception, invalid_date_character, date_incomplete, invalid_month, invalid_year, invalid_day, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, vid_description_of_event
 
 class valid_event:
     def __init__(self) -> None:
@@ -16,14 +10,16 @@ class valid_event:
         event_id = event.get_event_id()
         event_date = event.get_event_date()
         event_duration = event.get_event_duration()
+        event_description = event.get_event_description()
         valid_event.event_id_validation(event_id)
         valid_event.event_date_validation(event_date)
         valid_event.event_duration_validation(event_duration)
+        valid_event.event_description_validation(event_description)
     
     @staticmethod
     def event_id_validation(event_id):
         if event_id == "":
-            raise vid_id_exception
+            raise vid_event_id_exception
         
     @staticmethod
     def event_date_sintax_evaluation(event_date):
@@ -90,6 +86,13 @@ class valid_event:
                 raise invalid_event_duration_character(event_duration)
             if character == ',':
                 raise comma_not_supported_in_float_values(event_duration)
+    
+    @staticmethod
+    def event_description_validation(event_description):
+        if event_description == "":
+            raise vid_description_of_event
+        
+       
 
             
         

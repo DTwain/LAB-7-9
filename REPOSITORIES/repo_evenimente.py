@@ -1,5 +1,5 @@
-from REPOSITORIES.repo_custom_exceptation import dublicated_id_exception 
-from REPOSITORIES.repo_custom_exceptation import inexistent_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exceptation import dublicated_id_exception, inexistent_id_exception
+from REPOSITORIES.DTO import DTO_for_third_report
 class repo_events:
     def __init__(self):
         self.__repo_events = {}
@@ -39,7 +39,22 @@ class repo_events:
             event_list.append(event)
         return event_list
     
+    def get_list_of_DTO_obj_for_third_report(self):
+        list_of_DTO_obj_for_third_report = []
+        for event_id in self.__repo_events:
+            event = repo_events.get_event_through_id(self, event_id)
+            DTO_obj = DTO_for_third_report(event.get_event_id(), event.get_number_of_people_joined())
+            list_of_DTO_obj_for_third_report.append(DTO_obj)
+        return list_of_DTO_obj_for_third_report
+
+    def get_all(self):
+        return [self.__repo_events[event_id] for event_id in self.__repo_events]
+    
     def __len__(self):
         return len(self.__repo_events)
+    
+    def output(self):
+        for key, values in self.__repo_events.items():
+            print(f"{values}\n")
     
 

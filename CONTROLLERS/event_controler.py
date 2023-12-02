@@ -25,4 +25,25 @@ class event_controler:
     def find_event_by_id(self, event_id):
         return self.__repository_events.get_event_through_id(event_id)
     
+    def find_events_using_key_words(self, list_of_key_values):
+        events = self.__repository_events.get_all()
+        for event in events:
+            event_id = event.get_event_id().lower()
+            event_date = event.get_event_date().lower()
+            event_duration = event.get_event_duration().lower()
+            event_description = event.get_event_description().lower()
+            for key_value in list_of_key_values:
+                key_value = key_value.lower()
+                if key_value == event_id or key_value in event_date or key_value in event_duration or key_value in event_description:
+                    yield event
+                    break
+                
+    def inc_number_of_people_joined_to_event(self, event_id):
+        event = self.__repository_events.get_event_through_id(event_id)
+        event.inc_number_of_participants()
+        self.__repository_events.update_event(event, event_id)
+    
+    def output_events(self):
+        self.__repository_events.output()
+
     

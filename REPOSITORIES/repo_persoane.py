@@ -1,5 +1,4 @@
-from REPOSITORIES.repo_custom_exceptation import dublicated_id_exception 
-from REPOSITORIES.repo_custom_exceptation import inexistent_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exceptation import dublicated_id_exception, inexistent_id_exception
 from REPOSITORIES.DTO import DTO_for_second_report
 class repo_people:
     def __init__(self):
@@ -9,7 +8,7 @@ class repo_people:
         if person.get_person_id() not in self.__repo_people:
             self.__repo_people[person.get_person_id()] = person
         else:
-            raise dublicated_id_exception(id)
+            raise dublicated_id_exception(person.get_person_id()                                                                                                    )
 
     def remove_person(self, id):
         if id not in self.__repo_people:
@@ -34,16 +33,17 @@ class repo_people:
         list_with_number_of_events_person_joined = []
         for person_id in self.__repo_people:
             person = repo_people.get_person_through_id(self, person_id)
-            DTO_id_person_number_of_events = DTO_for_second_report(person.get_person_id(), person.number_of_event_added())
+            DTO_id_person_number_of_events = DTO_for_second_report(person.get_person_id(), person.number_of_events_added())
             list_with_number_of_events_person_joined.append(DTO_id_person_number_of_events)
         return list_with_number_of_events_person_joined
 
+    def get_all(self):
+        return [self.__repo_people[person_id] for person_id in self.__repo_people]
     
     def size(self):
         return len(self.__repo_people)
     
     def output(self):
         for key, values in self.__repo_people.items():
-            print(f"{key} : {values}")
-        print("\n")
+            print(f"{values}\n")
             

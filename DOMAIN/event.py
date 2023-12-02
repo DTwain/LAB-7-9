@@ -4,6 +4,7 @@ class event_class:
         self.__date = date
         self.__duration = duration
         self.__description = description
+        self.__number_of_people_joined = 0
 
     def get_event_id(self):
         return self.__id
@@ -17,8 +18,14 @@ class event_class:
     def get_event_description(self):
         return self.__description
     
+    def get_number_of_people_joined(self):
+        return self.__number_of_people_joined
+    
+    def inc_number_of_participants(self):
+        self.__number_of_people_joined += 1
+        
     def __str__(self):
-        return self.__id + " | " + self.__date + " | " + self.__duration + " | " + self.__description
+        return "ID:          " + self.__id + "\nData:        " + self.__date + "\nDurata:      " + self.__duration + " minute\nDescriere:   " + self.__description + "\nNr. persoane inscrise:    " + str(self.__number_of_people_joined)
     
 
     
