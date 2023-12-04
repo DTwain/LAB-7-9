@@ -7,7 +7,7 @@ from REPOSITORIES.repo_evenimente import repo_events
 from REPOSITORIES.repo_persoane import repo_people
 from UI.run_console import UI
 
-
+from TESTS.test_suite import test_suite
 if __name__ == '__main__':
     r_events = repo_events()
     r_people = repo_people()
@@ -19,8 +19,10 @@ if __name__ == '__main__':
     pers_controler = person_controler(r_people, person_validator, ev_controler)
     rrr_controler = raport_controler(r_people, r_events)
 
-    ui = UI(ev_controler, pers_controler, rrr_controler)
-    ui.run_C()
+
+    test_suite()
+    # ui = UI(ev_controler, pers_controler, rrr_controler)
+    # ui.run_C()
 
     # event_1 = event_class("1", "12/2/2020", "120", "Concertul lui travis Scott")
     # event_2 = event_class("2", "28/2/2022", "200", "Serbarea clasei a 3 - a")

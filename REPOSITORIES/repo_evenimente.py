@@ -1,5 +1,5 @@
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exceptation import dublicated_id_exception, inexistent_id_exception
-from REPOSITORIES.DTO import DTO_for_third_report
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_id_exception
+from DOMAIN.DTO import DTO_for_third_report
 class repo_events:
     def __init__(self):
         self.__repo_events = {}
@@ -22,6 +22,7 @@ class repo_events:
         old_event = self.__repo_events[id]
         self.__repo_events[id] = event
         return old_event
+
 
     def get_event_through_id(self, event_id):
         if event_id not in self.__repo_events:

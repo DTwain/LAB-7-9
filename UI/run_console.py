@@ -1,7 +1,7 @@
 from DOMAIN.VALIDARI.validari_UI import option_exist, option_for_report_exist
 from MY_CUSTOM_EXCEPTIONS.ui_custom_exception import invalid_option, invalid_option_for_report
 from MY_CUSTOM_EXCEPTIONS.validation_exceptions import invalid_day, invalid_month, invalid_year, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, date_incomplete, person_validation_exception, vid_name_exception, vid_country_exception, vid_city_exception, vid_street_exception, vid_house_number_exception, vid_date_of_event, vid_description_of_event, vid_duration_of_event, vid_event_id_exception, vid_person_id_exception
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exceptation import repo_custom_exceptation, dublicated_id_exception, inexistent_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import repo_custom_exception, dublicated_id_exception, inexistent_id_exception
 
 class UI:
     def __init__(self, controler_ev, controler_per, controlor_report):
@@ -280,7 +280,7 @@ class UI:
                 self.__controler_people.add_event_to_person(person_id, event_id)
                 print("Inscriere realizata cu succes\n")
                 add_opp_fail = False
-            except (inexistent_id_exception, repo_custom_exceptation) as ex:
+            except (inexistent_id_exception, repo_custom_exception) as ex:
                 print(ex)
                 person_id = self.__read_person_id()
                 event_id = self.__read_event_id()
@@ -295,7 +295,7 @@ class UI:
         person_id = input("ID-ul persoanei: ")
         try:
             sorted_event_list = self.__controler_report.first_raport(person_id)
-        except repo_custom_exceptation as ex:
+        except repo_custom_exception as ex:
             print(ex)
             return 
         
@@ -305,7 +305,7 @@ class UI:
     def __report_two(self):
         try:
             people_with_max_joined_events = self.__controler_report.second_raport()
-        except repo_custom_exceptation as ex:
+        except repo_custom_exception as ex:
             print(ex)
             return
         
@@ -315,7 +315,7 @@ class UI:
     def __report_three(self):
         try:
             first_20_percent_of_events_with_max_participants = self.__controler_report.third_report()
-        except repo_custom_exceptation as ex:
+        except repo_custom_exception as ex:
             print(ex)
             return 
         

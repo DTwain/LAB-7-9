@@ -1,5 +1,5 @@
 import re
-from MY_CUSTOM_EXCEPTIONS.validation_exceptions import vid_event_id_exception, invalid_date_character, date_incomplete, invalid_month, invalid_year, invalid_day, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, vid_description_of_event
+from MY_CUSTOM_EXCEPTIONS.validation_exceptions import invalid_date_character, date_incomplete, invalid_month, invalid_year, invalid_day, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values,vid_event_id_exception, vid_date_of_event, vid_duration_of_event, vid_description_of_event
 
 class valid_event:
     def __init__(self) -> None:
@@ -26,6 +26,8 @@ class valid_event:
         for character in event_date:
             if character not in "/.:0123456789":
                 raise invalid_date_character(character)
+        if event_date == "":
+            raise vid_date_of_event
 
     @staticmethod
     def event_date_logic_evaluation(event_date):
@@ -86,6 +88,8 @@ class valid_event:
                 raise invalid_event_duration_character(event_duration)
             if character == ',':
                 raise comma_not_supported_in_float_values(event_duration)
+        if event_duration == "":
+            raise vid_duration_of_event
     
     @staticmethod
     def event_description_validation(event_description):
