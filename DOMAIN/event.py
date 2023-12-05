@@ -23,6 +23,18 @@ class event_class:
     
     def inc_number_of_participants(self):
         self.__number_of_people_joined += 1
+
+    def set_event_date(self, new_date):
+        self.__date = new_date
+    
+    def set_event_duration(self, new_duration):
+        self.__duration = new_duration
+    
+    def set_event_description(self, new_description):
+        self.__description = new_description
+
+    def __eq__(self, obj) -> bool:
+        return self.__id == obj.__id 
         
     def __str__(self):
         return "ID:          " + self.__id + "\nData:        " + self.__date + "\nDurata:      " + self.__duration + " minute\nDescriere:   " + self.__description + "\nNr. persoane inscrise:    " + str(self.__number_of_people_joined)

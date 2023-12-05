@@ -6,33 +6,43 @@ class valid_event:
         pass
 
     @staticmethod
-    def event_validation(event):
+    def event_validation(event, choosed_option_ADD_or_UPDATE = "ADD"):
         event_id = event.get_event_id()
         event_date = event.get_event_date()
         event_duration = event.get_event_duration()
         event_description = event.get_event_description()
         valid_event.event_id_validation(event_id)
-        valid_event.event_date_validation(event_date)
-        valid_event.event_duration_validation(event_duration)
-        valid_event.event_description_validation(event_description)
+        valid_event.event_date_validation(event_date, choosed_option_ADD_or_UPDATE)
+        valid_event.event_duration_validation(event_duration, choosed_option_ADD_or_UPDATE)
+        valid_event.event_description_validation(event_description, choosed_option_ADD_or_UPDATE)
     
+    @staticmethod
+    def event_validation_for_update(event, choosed_option_ADD_or_UPDATE = "UPDATE"):
+        event_date = event.get_event_date()
+        event_duration = event.get_event_duration()
+        event_description = event.get_event_description()
+        valid_event.event_date_validation(event_date, choosed_option_ADD_or_UPDATE)
+        valid_event.event_duration_validation(event_duration, choosed_option_ADD_or_UPDATE)
+        valid_event.event_description_validation(event_description, choosed_option_ADD_or_UPDATE)
+
     @staticmethod
     def event_id_validation(event_id):
         if event_id == "":
             raise vid_event_id_exception
-        
+ 
     @staticmethod
-    def event_date_sintax_evaluation(event_date):
+    def event_date_sintax_evaluation(event_date, choosed_option_ADD_or_UPDATE):
         for character in event_date:
             if character not in "/.:0123456789":
                 raise invalid_date_character(character)
-        if event_date == "":
-            raise vid_date_of_event
+        if choosed_option_ADD_or_UPDATE == "ADD":
+            if event_date == "":
+                raise vid_date_of_event
 
     @staticmethod
     def event_date_logic_evaluation(event_date):
         zi_luna_an = re.split(r'[:./]', event_date) 
-        zi_luna_an = [int(x) for x in zi_luna_an]
+        zi_luna_an = [int(x) for x in zi_luna_an if x != '']
 
         if len(zi_luna_an) != 3:
             raise date_incomplete(zi_luna_an) # daca nu am 3 elemente in lista inseamna ca nu am introdus data corect
@@ -72,12 +82,13 @@ class valid_event:
                 raise invalid_day(zi)
 
     @staticmethod
-    def event_date_validation(event_date):
-        valid_event.event_date_sintax_evaluation(event_date)
-        valid_event.event_date_logic_evaluation(event_date)
+    def event_date_validation(event_date, choosed_option_ADD_or_UPDATE):
+        valid_event.event_date_sintax_evaluation(event_date, choosed_option_ADD_or_UPDATE)
+        if event_date != "":
+            valid_event.event_date_logic_evaluation(event_date)
 
     @staticmethod
-    def event_duration_validation(event_duration):
+    def event_duration_validation(event_duration, choosed_option_ADD_or_UPDATE):
         dot_counter = 0 
         for character in event_duration:
             if character == '.':
@@ -88,13 +99,15 @@ class valid_event:
                 raise invalid_event_duration_character(event_duration)
             if character == ',':
                 raise comma_not_supported_in_float_values(event_duration)
-        if event_duration == "":
-            raise vid_duration_of_event
+        if choosed_option_ADD_or_UPDATE == "ADD":
+            if event_duration == "":
+                raise vid_duration_of_event
     
     @staticmethod
-    def event_description_validation(event_description):
-        if event_description == "":
-            raise vid_description_of_event
+    def event_description_validation(event_description, choosed_option_ADD_or_UPDATE):
+        if choosed_option_ADD_or_UPDATE == "ADD":
+            if event_description == "":
+                raise vid_description_of_event
         
        
 

@@ -18,8 +18,19 @@ class person_controler:
     
     def update_person(self, id, name, country, city, street, number_of_the_house):
         new_person_obj = person_class(id, name, country, city, street, number_of_the_house)
-        self.__person_validator.person_validation(new_person_obj)
-        preupdate_person = self.__repo_person.update_person(new_person_obj, id)
+        self.__person_validator.person_validation_for_update(new_person_obj)
+        default_person = self.__repo_person.get_person_through_id(id)
+        if new_person_obj.get_person_name() != "":
+            default_person.set_person_name(new_person_obj.get_person_name())
+        if new_person_obj.get_country() != "":
+            default_person.set_country(new_person_obj.get_country())
+        if new_person_obj.get_city() != "":
+            default_person.set_city(new_person_obj.get_city())
+        if new_person_obj.get_street() != "":
+            default_person.set_street(new_person_obj.get_street())
+        if new_person_obj.get_number_of_the_house() != "":
+            default_person.set_number_of_the_house(new_person_obj.get_number_of_the_house())
+        preupdate_person = self.__repo_person.update_person(default_person, id)
         return preupdate_person
     
     def add_event_to_person(self, person_id, event_id):

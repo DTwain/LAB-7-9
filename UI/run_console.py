@@ -1,6 +1,6 @@
 from DOMAIN.VALIDARI.validari_UI import option_exist, option_for_report_exist
 from MY_CUSTOM_EXCEPTIONS.ui_custom_exception import invalid_option, invalid_option_for_report
-from MY_CUSTOM_EXCEPTIONS.validation_exceptions import invalid_day, invalid_month, invalid_year, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, date_incomplete, person_validation_exception, vid_name_exception, vid_country_exception, vid_city_exception, vid_street_exception, vid_house_number_exception, vid_date_of_event, vid_description_of_event, vid_duration_of_event, vid_event_id_exception, vid_person_id_exception
+from MY_CUSTOM_EXCEPTIONS.validation_exceptions import invalid_day, invalid_month, invalid_year, invalid_date_character, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, date_incomplete, person_validation_exception, vid_name_exception, vid_country_exception, vid_city_exception, vid_street_exception, vid_house_number_exception, vid_date_of_event, vid_description_of_event, vid_duration_of_event, vid_event_id_exception, vid_person_id_exception
 from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import repo_custom_exception, dublicated_id_exception, inexistent_id_exception
 
 class UI:
@@ -53,22 +53,25 @@ class UI:
         return input("Recititi numarul casei unde locuieste persoana: ")
     
     def __read_option(self):
-        try:
-            option = input("\nOptiunea dumneavoastra este: ").strip()
-            option_exist(option)
-        except invalid_option as ex:
-            print(ex)
-            self.__read_option()
-        return option
+        while True:
+            try:
+                option = input("\nOptiunea dumneavoastra este: ").strip()
+                print("\n")
+                option_exist(option)
+                return option
+            except invalid_option as ex:
+                print(ex)
+        
 
     def __read_option_for_reports(self):
-        try:
-            option = input("Optiunea dumneavoastra pentru raport este: ").strip()
-            option_for_report_exist(option)
-        except invalid_option_for_report as ex:
-            print(ex)
-            self.__read_option_for_reports()
-        return option
+        while True:
+            try:
+                option = input("Optiunea dumneavoastra pentru raport este: ").strip()
+                option_for_report_exist(option)
+                return option
+            except invalid_option_for_report as ex:
+                print(ex)
+        
     def __add_event(self):
         print("Adaugati datele evenimentului: ")
         event_id = input("     ID-ul eventului:     ")
@@ -168,28 +171,12 @@ class UI:
         update_opp_fail = True
         while update_opp_fail:
             try:
-                pre_update_person = self.__controler_people.update_person(person_id, person_name, country, city, street, number)
-                print(f"{pre_update_person}\n")
-                print("Updatare realizata cu succes\n")
-                update_opp_fail_opp_fail = False
-            except (vid_person_id_exception, dublicated_id_exception) as ex: 
+                self.__controler_people.update_person(person_id, person_name, country, city, street, number)
+                print("Modificare realizata cu succes\n")
+                update_opp_fail = False
+            except (vid_person_id_exception, dublicated_id_exception, inexistent_id_exception) as ex:
                 print(ex)
                 person_id = self.__read_person_id()
-            except vid_name_exception as ex:
-                print(ex)
-                person_name = self.__read_person_name()
-            except vid_country_exception as ex:
-                print(ex)
-                country = self.__read_person_address_country()
-            except vid_city_exception as ex:
-                print(ex)
-                city = self.__read_person_address_city()
-            except vid_street_exception as ex:
-                print(ex)
-                street = self.__read_person_address_street()
-            except vid_house_number_exception as ex:
-                print(ex)
-                number = self.__read_person_address_house_number()
 
     def __update_event(self):
         print("ALEGETI UN ID DE EVENT, PENTRU A MODIFICA EVENTUL AFERNT:\n")
@@ -197,27 +184,23 @@ class UI:
         print("\nAdaugati datele evenimentului: ")
         event_id = input("     ID-ul eventului:     ")
         event_date = input("     Data eventului:      ")
-        event_duration = input("    Dati durata eventului:  ")
+        event_duration = input("     Dati durata eventului:  ")
         event_description = input("     Descrierea eventului:   ")
         update_opp_fail = True
         while update_opp_fail:
             try:
-                pre_updated_event = self.__controler_events.update_event(event_id, event_date, event_duration, event_description)
-                print(f"{pre_updated_event}\n")
-                print("Updatare realizata cu succes\n")
+                self.__controler_events.update_event(event_id, event_date, event_duration, event_description)
+                print("Modificare realizata cu succes\n")
                 update_opp_fail = False
-            except (vid_person_id_exception, dublicated_id_exception) as ex:
+            except (vid_event_id_exception, dublicated_id_exception, inexistent_id_exception) as ex:
                 print(ex)
                 event_id = self.__read_event_id()
-            except (vid_date_of_event, date_incomplete, invalid_day, invalid_month, invalid_year) as ex:
+            except (date_incomplete, invalid_day, invalid_month, invalid_year, invalid_date_character) as ex:
                 print(ex)
                 event_date = self.__read_event_date()
-            except (vid_duration_of_event, invalid_event_duration_character, comma_not_supported_in_float_values, multiple_dots_in_event_duration) as ex:
+            except (invalid_event_duration_character, comma_not_supported_in_float_values, multiple_dots_in_event_duration) as ex:
                 print(ex)
                 event_duration = self.__read_event_duration()
-            except vid_description_of_event as ex:
-                print(ex)
-                event_description = self.__read_event_description()
     
     def __find_people_using_key_words(self):
         self.__controler_people.output_people()
@@ -237,12 +220,15 @@ class UI:
         
         generator = self.__controler_people.find_people_using_key_words(lines_of_key_words)
         
-        try:
-            while True:
-                person = next(generator)
-                print(person)
-        except StopIteration:
-            assert True
+        for person in generator:
+            print(person)
+
+        # try:
+        #     while True:
+        #         person = next(generator)
+        #         print(person)
+        # except StopIteration:
+        #     assert True
     
     def __find_event_using_key_words(self):
         print("TUTORIAL:")

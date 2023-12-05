@@ -6,9 +6,6 @@ class person_class(address_class):
         super().__init__(country, city, street, number)
         self.__joined_events = []
 
-    def add_event_to_person(self, id_event):
-        self.__joined_events.append(id_event)
-
     def get_person_id(self):
         return self.__id
     
@@ -18,6 +15,12 @@ class person_class(address_class):
     def get_events_id(self):
         return self.__joined_events
     
+    def set_person_name(self, new_name):
+        self.__name = new_name
+
+    def add_event_to_person(self, id_event):
+        self.__joined_events.append(id_event)
+
     def number_of_events_added(self):
         return len(self.__joined_events)
 

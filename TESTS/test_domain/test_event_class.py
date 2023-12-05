@@ -19,6 +19,14 @@ class test_event(unittest.TestCase):
         self.event_1.inc_number_of_participants()
         self.assertEqual(self.event_1.get_number_of_people_joined(), 1)
 
+    def test_setters(self):
+        self.event_1.set_event_date("12/2/2021")
+        self.event_1.set_event_duration("300")
+        self.event_1.set_event_description("Balul Bobocilor")
+        self.assertEqual(self.event_1.get_event_date(), "12/2/2021")
+        self.assertEqual(self.event_1.get_event_duration(), "300")
+        self.assertEqual(self.event_1.get_event_description(), "Balul Bobocilor")
+
     def test_str(self):
         self.assertEqual(str(self.event_1), "ID:          1\nData:        12/2/2020\nDurata:      120 minute\nDescriere:   Kylie Jenner s-a despartit de Travis Scott\nNr. persoane inscrise:    0")
         self.assertEqual(str(self.event_2), "ID:          2\nData:        28/2/2022\nDurata:      200 minute\nDescriere:   Serbarea clasei a 3 - a\nNr. persoane inscrise:    0")

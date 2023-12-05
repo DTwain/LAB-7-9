@@ -20,6 +20,18 @@ class test_person(unittest.TestCase):
         self.assertEqual(self.person_1.get_events_id(), [])
         self.assertEqual(self.person_1.number_of_events_added(),  0)
 
+    def test_setters(self):
+        self.person_1.set_person_name("Popescu Marius")
+        self.person_1.set_country("Germania")
+        self.person_1.set_city("Berlin")
+        self.person_1.set_street("Oderbergerstrasse")
+        self.person_1.set_number_of_the_house("44")
+        self.assertEqual(self.person_1.get_person_name(), "Popescu Marius")
+        self.assertEqual(self.person_1.get_country(), "Germania")
+        self.assertEqual(self.person_1.get_city(), "Berlin")
+        self.assertEqual(self.person_1.get_street(), "Oderbergerstrasse")
+        self.assertEqual(self.person_1.get_number_of_the_house(), "44")
+
     def test_add_event_to_person(self):
         self.person_1.add_event_to_person("1")
         self.person_1.add_event_to_person("2")

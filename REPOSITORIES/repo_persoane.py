@@ -40,6 +40,9 @@ class repo_people:
     def get_all(self):
         return [self.__repo_people[person_id] for person_id in self.__repo_people]
     
+    def get_all_ids(self):
+        return list(self.__repo_people.keys())
+    
     def size(self):
         return len(self.__repo_people)
     

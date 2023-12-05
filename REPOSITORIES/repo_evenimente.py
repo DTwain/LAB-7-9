@@ -51,6 +51,9 @@ class repo_events:
     def get_all(self):
         return [self.__repo_events[event_id] for event_id in self.__repo_events]
     
+    def get_all_ids(self):
+        return list(self.__repo_events.keys())
+
     def __len__(self):
         return len(self.__repo_events)
     
