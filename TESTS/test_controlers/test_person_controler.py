@@ -102,3 +102,40 @@ class test_person_controler(unittest.TestCase):
         with self.assertRaises(repo_custom_exception):
             self.__person_controler.update_person("4", "Luka Modric", "", "Pheonix", "Van Buren", "")
         self.__person_controler.update_person("3", "", "", "", "", "")
+
+
+    def test_add_event_to_person(self):
+        self.__person_controler.add_event_to_person("3", "1")
+        person = self.__person_controler.find_person_by_id("3")
+        self.assertEqual(person.get_events_id(), ["1"])
+        self.__person_controler.add_event_to_person("3", "2")
+        person = self.__person_controler.find_person_by_id("3")
+        self.assertEqual(person.get_events_id(), ["1", "2"])
+        self.__person_controler.add_event_to_person("3", "3")
+        person = self.__person_controler.find_person_by_id("3")
+        self.assertEqual(person.get_events_id(), ["1", "2", "3"])
+        with self.assertRaises(repo_custom_exception):
+            self.__person_controler.add_event_to_person("3", "4")
+            self.__person_controler.add_event_to_person("3", "5")
+            self.__person_controler.add_event_to_person("3", "6")
+            self.__person_controler.add_event_to_person("3", "7")
+
+    def test_find_people_using_key_words(self):
+        list_of_key_words = ["Jonny", "Marian"]
+        generator = self.__person_controler.find_people_using_key_words(list_of_key_words)
+        self.assertEqual(next(generator), self.__person_controler.find_person_by_id("3"))
+        self.assertEqual(next(generator), self.__person_controler.find_person_by_id("12AB"))
+        self.assertRaises(StopIteration, next, generator)
+
+        list_of_key_words = []
+        generator = self.__person_controler.find_people_using_key_words(list_of_key_words)
+        self.assertRaises(StopIteration, next, generator)
+
+        list_of_key_words = ["Niculae", "Romania"]
+        generator = self.__person_controler.find_people_using_key_words(list_of_key_words)
+        self.assertEqual(next(generator), self.__person_controler.find_person_by_id("1"))
+        self.assertEqual(next(generator), self.__person_controler.find_person_by_id("12AB"))
+        self.assertRaises(StopIteration, next, generator)
+    
+
+

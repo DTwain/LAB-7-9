@@ -2,12 +2,12 @@ from DOMAIN.VALIDARI.validare_persoana import valid_person
 from DOMAIN.VALIDARI.validare_event import valid_event
 from CONTROLLERS.event_controler import event_controler
 from CONTROLLERS.person_controler import person_controler
-from CONTROLLERS.report_controler import raport_controler
+from CONTROLLERS.report_controler import report_controler
 from REPOSITORIES.repo_evenimente import repo_events
 from REPOSITORIES.repo_persoane import repo_people
 from UI.run_console import UI
 
-from TESTS.test_suite import test_suite
+from TESTS.combine_all_tests import test_suite
 if __name__ == '__main__':
     r_events = repo_events()
     r_people = repo_people()
@@ -17,12 +17,12 @@ if __name__ == '__main__':
 
     ev_controler = event_controler(r_events, event_validator)
     pers_controler = person_controler(r_people, person_validator, ev_controler)
-    rrr_controler = raport_controler(r_people, r_events)
+    rrr_controler = report_controler(r_people, r_events)
 
 
     test_suite()
-    # ui = UI(ev_controler, pers_controler, rrr_controler)
-    # ui.run_C()
+    ui = UI(ev_controler, pers_controler, rrr_controler)
+    ui.run_C()
 
     # event_1 = event_class("1", "12/2/2020", "120", "Concertul lui travis Scott")
     # event_2 = event_class("2", "28/2/2022", "200", "Serbarea clasei a 3 - a")

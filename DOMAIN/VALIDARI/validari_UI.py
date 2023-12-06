@@ -6,3 +6,22 @@ def option_exist(option):
 def option_for_report_exist(option):
     if option.upper() not in ["A", "B", "C"]:
         raise invalid_option_for_report("Optiunea pentru raport NU exista")
+    
+def test_option_exist():
+    option_exist("1")
+    option_exist("2")
+    try:
+        option_exist("11")
+        assert False
+    except invalid_option:
+        assert True
+
+def test_option_for_report_exist():
+    option_for_report_exist("A")
+    option_for_report_exist("b")
+    option_for_report_exist("C")
+    try:
+        option_for_report_exist("D")
+        assert False
+    except invalid_option_for_report:
+        assert True

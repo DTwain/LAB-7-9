@@ -5,9 +5,6 @@ class event_validation_exception(Exception):
     def __str__(self):
         return self.__validation_error_message
 
-class vid_person_id_exception(event_validation_exception):
-    def __init__(self):
-        super().__init__("ERROR : Nu ati introdus un id de persoana valid. < ID-ul persoanei ESTE VID >")
 
 class vid_event_id_exception(event_validation_exception):
     def __init__(self):
@@ -66,6 +63,9 @@ class date_incomplete(event_validation_exception):
 
 
 """
+Exceptii pentru validarea evenimentului:
+invalid_date_character, invalid_day, invalid_month, invalid_year, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, date_incomplete, vid_event_id_exception, vid_date_of_event, vid_duration_of_event, vid_description_of_event
+
 My custom exception for person validation 
 
 """
@@ -74,6 +74,10 @@ class person_validation_exception(Exception):
         self.__validation_error_message = validation_error_message
     def __str__(self):
         return self.__validation_error_message
+
+class vid_person_id_exception(person_validation_exception):
+    def __init__(self):
+        super().__init__("ERROR : Nu ati introdus un id de persoana valid. < ID-ul persoanei ESTE VID >")
 
 class vid_name_exception(person_validation_exception):
     def __init__(self):

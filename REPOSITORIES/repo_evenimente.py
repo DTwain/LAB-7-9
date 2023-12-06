@@ -1,6 +1,24 @@
 from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_id_exception
 from DOMAIN.DTO import DTO_for_third_report
 class repo_events:
+    """
+    Clasa care se ocupa de repository-ul de evenimente.
+
+    Attributes:
+    - __repo_events (dict): Un dictionar care contine evenimentele si key-urile reprezinta ID-urile evenimentelor.
+
+    METODE
+    - add_event(event): Adauga un eveniment in repository.
+    - delete_event(id): Sterge un eveniment din repository.
+    - update_event(event, id): Updateaza un eveniment din repository.
+    - get_event_through_id(event_id): Returneaza un eveniment corespunzator unui id, din repository.
+    - get_events_that_corespond_to_id(id_list): Returneaza o lista cu evenimentele corespunzatoare unor id-uri, din repository.
+    - get_list_of_DTO_obj_for_third_report(): Returneaza o lista de obiecte DTO pentru raportul 3.
+    - get_all(): Returneaza o lista cu toate evenimentele din repository.
+    - get_all_ids(): Returneaza o lista cu toate id-urile evenimentelor din repository.
+    - __len__(): Returneaza numarul de evenimente din repository.
+    - output(): Afiseaza evenimentele din repository.
+    """
     def __init__(self):
         self.__repo_events = {}
 
@@ -31,8 +49,13 @@ class repo_events:
     
     def get_events_that_corespond_to_id(self, id_list):
         """
-        id_list = lista cu id-urile evenimentelor la care participa o persoana
-        return: va returna o lista cu toate obiectele de tip eveniment care corespund id - urilor
+        Returneaza o lista cu evenimentele corespunzatoare unor id-uri, din repository.
+
+        Args:
+        - id_list (list): A list of event IDs.
+
+        Returns:
+        - event_list (list): A list of event objects that correspond to the given IDs.
         """
         event_list = []
         for event_id in id_list:
@@ -41,6 +64,12 @@ class repo_events:
         return event_list
     
     def get_list_of_DTO_obj_for_third_report(self):
+        """
+        Returneaza o lista de obiecte DTO pentru raportul 3.
+
+        Returns:
+        - list_of_DTO_obj_for_third_report (list): A list of DTO objects for the third report.
+        """
         list_of_DTO_obj_for_third_report = []
         for event_id in self.__repo_events:
             event = repo_events.get_event_through_id(self, event_id)
@@ -49,15 +78,36 @@ class repo_events:
         return list_of_DTO_obj_for_third_report
 
     def get_all(self):
+        """
+        Returneaza o lista cu toate evenimentele din repository.
+
+        Returns:
+        - all_events (list): A list of all event objects in the repository.
+        """
         return [self.__repo_events[event_id] for event_id in self.__repo_events]
     
     def get_all_ids(self):
+        """
+        Returneaza o lista cu toate id-urile evenimentelor din repository.
+
+        Returns:
+        - all_ids (list): A list of all event IDs in the repository.
+        """
         return list(self.__repo_events.keys())
 
     def __len__(self):
+        """
+        Returnea numarul de evenimente din repository.
+
+        Returns:
+        - length (int): The number of events in the repository.
+        """
         return len(self.__repo_events)
     
     def output(self):
+        """
+        Afiseaza evenimentele din repository.
+        """
         for key, values in self.__repo_events.items():
             print(f"{values}\n")
     

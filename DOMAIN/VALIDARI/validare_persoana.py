@@ -17,11 +17,13 @@ class valid_person:
     
     @staticmethod
     def person_validation_for_update(person, choosed_option_ADD_or_UPDATE = "UPDATE"):
+        person_id = person.get_person_id()
         person_name = person.get_person_name()
         person_country = person.get_country()
         person_city = person.get_city()
         person_street = person.get_street()
         person_house_number = person.get_number_of_the_house()
+        valid_person.person_id_validation(person_id)
         valid_person.person_name_validation(person_name, choosed_option_ADD_or_UPDATE)
         valid_person.person_country_validation(person_country, choosed_option_ADD_or_UPDATE)
         valid_person.person_city_validation(person_city, choosed_option_ADD_or_UPDATE)

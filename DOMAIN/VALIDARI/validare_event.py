@@ -18,9 +18,11 @@ class valid_event:
     
     @staticmethod
     def event_validation_for_update(event, choosed_option_ADD_or_UPDATE = "UPDATE"):
+        event_id = event.get_event_id()
         event_date = event.get_event_date()
         event_duration = event.get_event_duration()
         event_description = event.get_event_description()
+        valid_event.event_id_validation(event_id)
         valid_event.event_date_validation(event_date, choosed_option_ADD_or_UPDATE)
         valid_event.event_duration_validation(event_duration, choosed_option_ADD_or_UPDATE)
         valid_event.event_description_validation(event_description, choosed_option_ADD_or_UPDATE)
@@ -95,10 +97,10 @@ class valid_event:
                 dot_counter += 1
             if dot_counter >= 2:
                 raise multiple_dots_in_event_duration(event_duration)
-            if  character not in ".0123456789":
-                raise invalid_event_duration_character(event_duration)
             if character == ',':
                 raise comma_not_supported_in_float_values(event_duration)
+            if  character not in ".0123456789":
+                raise invalid_event_duration_character(event_duration)
         if choosed_option_ADD_or_UPDATE == "ADD":
             if event_duration == "":
                 raise vid_duration_of_event

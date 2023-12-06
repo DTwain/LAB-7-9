@@ -280,7 +280,7 @@ class UI:
     def __report_one(self):
         person_id = input("ID-ul persoanei: ")
         try:
-            sorted_event_list = self.__controler_report.first_raport(person_id)
+            sorted_event_list = self.__controler_report.first_report(person_id)
         except repo_custom_exception as ex:
             print(ex)
             return 
@@ -290,7 +290,7 @@ class UI:
     
     def __report_two(self):
         try:
-            people_with_max_joined_events = self.__controler_report.second_raport()
+            people_with_max_joined_events = self.__controler_report.second_report()
         except repo_custom_exception as ex:
             print(ex)
             return

@@ -24,6 +24,9 @@ class person_class(address_class):
     def number_of_events_added(self):
         return len(self.__joined_events)
 
+    def __eq__(self, other) -> bool:
+        return self.__id == other.__id
+    
     def __str__(self):
         address_info = super().__str__()
         joined_events_as_str = "[" + ", ".join(map(str, self.__joined_events)) + "]"
