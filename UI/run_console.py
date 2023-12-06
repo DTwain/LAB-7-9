@@ -31,6 +31,7 @@ class UI:
         print("     A. Lista de evenimente la care participă o persoană ordonat alfabetic după descriere")
         print("     B. Persoane participante la cele mai multe evenimente")
         print(f"     C. Primele 20{"% e"}venimente cu cei mai mulți participanți (descriere, număr participanți)")
+        
     def __read_event_id(self):
         return input("Recititi ID-ul eventului: ")
     def __read_event_date(self):
