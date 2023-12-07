@@ -33,6 +33,9 @@ class event_class:
     def set_event_description(self, new_description):
         self.__description = new_description
 
+    def set_number_of_people_joined(self, value):
+        self.__number_of_people_joined = value
+
     def __eq__(self, obj) -> bool:
         return self.__id == obj.__id 
         

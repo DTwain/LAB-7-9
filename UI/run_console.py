@@ -1,7 +1,7 @@
 from DOMAIN.VALIDARI.validari_UI import option_exist, option_for_report_exist
 from MY_CUSTOM_EXCEPTIONS.ui_custom_exception import invalid_option, invalid_option_for_report
 from MY_CUSTOM_EXCEPTIONS.validation_exceptions import invalid_day, invalid_month, invalid_year, invalid_date_character, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, date_incomplete, person_validation_exception, vid_name_exception, vid_country_exception, vid_city_exception, vid_street_exception, vid_house_number_exception, vid_date_of_event, vid_description_of_event, vid_duration_of_event, vid_event_id_exception, vid_person_id_exception
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import repo_custom_exception, dublicated_id_exception, inexistent_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import repo_custom_exception, dublicated_id_exception, inexistent_id_exception, event_added_twice_to_person, no_other_event_to_add_to_person
 
 class UI:
     def __init__(self, controler_ev, controler_per, controlor_report):
@@ -248,12 +248,14 @@ class UI:
         
         generator = self.__controler_events.find_events_using_key_words(lines_of_key_words)
         
-        try:
-            while True:
-                event = next(generator)
-                print(event)
-        except StopIteration:
-            assert True
+        for event in generator:
+            print(event)
+        # try:
+        #     while True:
+        #         event = next(generator)
+        #         print(event)
+        # except StopIteration:
+        #     assert True
     
     def __add_person_to_event(self):
         print("ALEGETI UN ID DE PERSOANA SI UN ID DE EVENT, PENTRU A INSCRIE PERSOANA LA EVENT:\n")
@@ -262,19 +264,18 @@ class UI:
         person_id = input("ID-ul persoanei: ")
         event_id = input("ID-ul eventului: ")
         add_opp_fail = True
-        while True:
+        while add_opp_fail:
             try:
                 self.__controler_people.add_event_to_person(person_id, event_id)
                 print("Inscriere realizata cu succes\n")
                 add_opp_fail = False
-            except (inexistent_id_exception, repo_custom_exception) as ex:
+            except no_other_event_to_add_to_person as ex:
+                print(ex)
+                add_opp_fail = False
+            except (vid_person_id_exception, inexistent_id_exception) as ex:
                 print(ex)
                 person_id = self.__read_person_id()
-                event_id = self.__read_event_id()
-            except vid_person_id_exception as ex:
-                print(ex)
-                person_id = self.__read_person_id()
-            except vid_event_id_exception as ex:
+            except (vid_event_id_exception, event_added_twice_to_person) as ex:
                 print(ex)
                 event_id = self.__read_event_id()
         

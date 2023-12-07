@@ -118,6 +118,10 @@ class event_controler:
         event.inc_number_of_participants()
         self.__repository_events.update_event(event, event_id)
     
+    def __len__(self):
+        return len(self.__repository_events)
+
+
     def output_events(self):
         """
         Outputs all events.

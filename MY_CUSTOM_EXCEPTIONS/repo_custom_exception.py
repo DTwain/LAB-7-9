@@ -13,3 +13,11 @@ class dublicated_id_exception(repo_custom_exception):
 class inexistent_id_exception(repo_custom_exception):
     def __init__(self, id):
         super().__init__(f"EROOR: Id-ul nu exista! < {id} >")
+
+class event_added_twice_to_person(repo_custom_exception):
+    def __init__(self, id):
+        super().__init__(f"EROOR: Id-ul a mai fost introdus odata! < {id} >")
+
+class no_other_event_to_add_to_person(repo_custom_exception):
+    def __init__(self):
+        super().__init__(f"EROOR: Nu se mai poate adauga un eveniment la o persoana ")

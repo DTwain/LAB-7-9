@@ -15,8 +15,10 @@ class repo_file_event(repo_events):
         line = file.readline().strip()
         while line != "":
             line_elements = line.split(";")
-            person = event_class(line_elements[0], line_elements[1], line_elements[2], line_elements[3])
-            super().add_event(person)
+            event = event_class(line_elements[0], line_elements[1], line_elements[2], line_elements[3])
+            if len(line_elements) > 4 and line_elements[4] != '':
+                event.set_number_of_people_joined(int(line_elements[4]))
+            super().add_event(event)
             line = file.readline().strip()
         file.close()
 
@@ -29,7 +31,7 @@ class repo_file_event(repo_events):
         for event in list_of_all_events:
             event_as_string = event.get_event_id() + ';' + event.get_event_date()
             event_as_string += ';' + event.get_event_duration() + ';' + event.get_event_description()
-            event_as_string += '\n'
+            event_as_string += ';' + str(event.get_number_of_people_joined()) + '\n'
             file.write(event_as_string)
         file.close()
         

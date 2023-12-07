@@ -17,6 +17,10 @@ class repo_file_people(repo_people):
         while line != "":
             line_elements = line.split(";")
             person = person_class(line_elements[0], line_elements[1], line_elements[2], line_elements[3], line_elements[4], line_elements[5])
+            if len(line_elements) > 6:
+                events_id = line_elements[6].split(',')
+                for event_id in events_id:
+                    person.add_event_to_person(event_id)
             super().add_person_to_rep(person)
             line = file.readline().strip()
         file.close()
@@ -30,12 +34,18 @@ class repo_file_people(repo_people):
         for person in list_of_people:
             person_as_string = person.get_person_id() + ';' + person.get_person_name()
             person_as_string += ';' + person.get_country() + ';' + person.get_city() + ";" + person.get_street() + ";"
-            person_as_string += person.get_number_of_the_house() + '\n'
-            file.write(person_as_string)
+            person_as_string += person.get_number_of_the_house() + ';'
+            events_id = person.get_events_id()
+            for event_id in events_id:
+                person_as_string += str(event_id)
+                person_as_string += ','
+            copy_person_as_string = person_as_string[:-1] + '\n'
+            file.write(copy_person_as_string)
         file.close()
 
     def add_person_to_rep(self, person):
-        return super().add_person_to_rep(person)
+        super().add_person_to_rep(person)
+        self.__store_to_file()
     
     def remove_person(self, id):
         erased_person = super().remove_person(id)

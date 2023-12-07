@@ -1,5 +1,5 @@
 from DOMAIN.person import person_class
-
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import event_added_twice_to_person, no_other_event_to_add_to_person
 class person_controler:
     """
     Controller class for managing person objects.
@@ -96,6 +96,11 @@ class person_controler:
         if self.__event_controler.find_event_by_id(event_id):
             pass
         person_obj = self.__repo_person.get_person_through_id(person_id)
+        all_ids_of_events_person_obj_joined = person_obj.get_events_id()
+        if len(all_ids_of_events_person_obj_joined) == len(self.__event_controler):
+            raise no_other_event_to_add_to_person
+        if event_id in all_ids_of_events_person_obj_joined:
+            raise event_added_twice_to_person(event_id)
         self.__event_controler.inc_number_of_people_joined_to_event(event_id)
         person_obj.add_event_to_person(event_id)
         self.__repo_person.update_person(person_obj, person_obj.get_person_id())
