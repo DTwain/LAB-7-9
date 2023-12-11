@@ -1,2 +1,2 @@
 1;Marian;Romania;Bucuresti;Unirii;123;2,3
-2;Obreja David;Romania;Cluj Napoca;Aurel Vlaicu;12E
+2;Obreja David;Romania;Cluj Napoca;Aurel Vlaicu;12E;1,3
