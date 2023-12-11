@@ -137,6 +137,9 @@ class test_repo_file_event(unittest.TestCase):
     def test_get_all_ids(self):
         self.assertEqual(self.__repo.get_all_ids(), ["1", "2", "3"])
 
+    def test_get_shared_person_event_class(self):
+        self.assertIsInstance(self.__repo.get_shared_person_event_class(), person_event_class)
+
 
 
 

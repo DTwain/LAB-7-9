@@ -24,3 +24,11 @@ class person_added_twice_to_event(repo_custom_exception):
 class no_other_event_to_add_to_person(repo_custom_exception):
     def __init__(self, id):
         super().__init__(f"EROOR: Nu se mai poate adauga un eveniment la persoana cu id-ul < {id} > ")
+
+class no_event_to_delete_exception(repo_custom_exception):
+    def __init__(self):
+        super().__init__("EROOR: Nu exista evenimente adaugate!!")
+
+class no_person_to_delete_exception(repo_custom_exception):
+    def __init__(self):
+        super().__init__("EROOR: Nu exista persone adaugate!!")

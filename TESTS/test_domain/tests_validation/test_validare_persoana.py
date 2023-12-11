@@ -5,6 +5,9 @@ from DOMAIN.person import person_class
 from DOMAIN.person_event import person_event_class
 from MY_CUSTOM_EXCEPTIONS.validation_exceptions import vid_person_id_exception, vid_name_exception, vid_country_exception, vid_city_exception, vid_street_exception, vid_house_number_exception
 from MY_CUSTOM_EXCEPTIONS.validation_exceptions import person_validation_exception
+
+from UTILS.generators import id_generator, string_generator, person_number_of_the_house_generator
+import random
 class test_validare_persoana(unittest.TestCase):
     def setUp(self) -> None:
             self.__shared_person_event_class = person_event_class()
@@ -78,3 +81,21 @@ class test_validare_persoana(unittest.TestCase):
         
         with self.assertRaises(vid_house_number_exception):
             self.__event_validator.person_house_number_validation(person_house_number, choosed_option_ADD_or_UPDATE)
+
+    def test_person_validation_with_random_generated_cases(self):
+        random.seed(10)
+
+        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        self.assertRaises(person_validation_exception, self.__event_validator.person_validation, person)
+
+        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        self.__event_validator.person_validation(person)
+
+        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        self.__event_validator.person_validation(person)
+
+        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        self.assertRaises(person_validation_exception, self.__event_validator.person_validation, person)
+
+        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        self.assertRaises(person_validation_exception, self.__event_validator.person_validation, person)

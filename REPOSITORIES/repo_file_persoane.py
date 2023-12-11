@@ -67,8 +67,11 @@ class repo_file_people(repo_people):
     def get_all_ids(self):
         return super().get_all_ids()
     
-    def size(self):
-        return super().size()
+    def get_shared_person_event_class(self):
+        return self.__shared_person_event_class
+
+    def __len__(self):
+        return super().__len__()
     
     def output(self):
         return super().output()

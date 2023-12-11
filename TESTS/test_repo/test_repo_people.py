@@ -4,7 +4,7 @@ from DOMAIN.person import person_class
 from DOMAIN.DTO import DTO_for_second_report
 from DOMAIN.person_event import person_event_class
 from REPOSITORIES.repo_persoane import repo_people
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_person_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_person_id_exception, no_person_to_delete_exception
 
 class test_repo_people(unittest.TestCase):
     def setUp(self):
@@ -29,7 +29,7 @@ class test_repo_people(unittest.TestCase):
         self.assertEqual(removed_person, person)
         self.assertEqual(len(self.__repo), 0)
         self.assertEqual(self.__repo.get_all(), [])
-        with self.assertRaises(inexistent_person_id_exception):
+        with self.assertRaises(no_person_to_delete_exception):
             self.__repo.remove_person("1")
 
     def test_update_person(self):

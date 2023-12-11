@@ -1,4 +1,4 @@
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_event_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_event_id_exception, no_event_to_delete_exception
 from DOMAIN.DTO import DTO_for_third_report
 class repo_events:
     """
@@ -28,6 +28,8 @@ class repo_events:
         self.__repo_events[event.get_event_id()] = event
 
     def delete_event(self, id):
+        if len(self.__repo_events) == 0:
+            raise no_event_to_delete_exception()
         if id not in self.__repo_events:
             raise inexistent_event_id_exception(id)
         removed_event = self.__repo_events[id]

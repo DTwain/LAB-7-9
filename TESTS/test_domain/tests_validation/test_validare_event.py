@@ -4,6 +4,8 @@ from DOMAIN.person_event import person_event_class
 from DOMAIN.event import event_class
 from MY_CUSTOM_EXCEPTIONS.validation_exceptions import event_validation_exception
 from MY_CUSTOM_EXCEPTIONS.validation_exceptions import invalid_date_character, invalid_day, invalid_month, invalid_year, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, date_incomplete, vid_event_id_exception, vid_date_of_event, vid_duration_of_event, vid_description_of_event
+from UTILS.generators import id_generator, date_generator, event_duration_generator, string_generator
+import random
 class test_validare_event(unittest.TestCase):
     def setUp(self) -> None:
         self.__shared_person_event_class = person_event_class()
@@ -71,5 +73,26 @@ class test_validare_event(unittest.TestCase):
         self.assertRaises(multiple_dots_in_event_duration, self.__event_validator.event_duration_validation, "60.5.5", "ADD")
         self.assertRaises(invalid_event_duration_character, self.__event_validator.event_duration_validation, "60.5#", "ADD")
         self.assertRaises(comma_not_supported_in_float_values, self.__event_validator.event_duration_validation, "60,5", "ADD")
+
+    def test_validare_event_with_random_generated_cases(self):
+        random.seed(10)
+
+        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        self.assertRaises(event_validation_exception, self.__event_validator.event_validation, event)
+
+        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        self.assertRaises(event_validation_exception, self.__event_validator.event_validation, event)
+        
+        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        self.__event_validator.event_validation(event)
+
+        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        self.assertRaises(event_validation_exception, self.__event_validator.event_validation, event)
+
+        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        self.__event_validator.event_validation(event)
+
+
+
 
 

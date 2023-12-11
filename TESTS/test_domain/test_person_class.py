@@ -3,6 +3,7 @@ from DOMAIN.person import person_class
 from DOMAIN.person_event import person_event_class
 from DOMAIN.person import person_class
 from DOMAIN.person_event import person_event_class
+from UTILS.generators import id_generator, string_generator
 class test_person_class(unittest.TestCase):
     def setUp(self):
         self.__shared_person_event_class = person_event_class()

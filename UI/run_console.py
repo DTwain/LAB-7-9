@@ -1,7 +1,7 @@
 from DOMAIN.VALIDARI.validari_UI import option_exist, option_for_report_exist
 from MY_CUSTOM_EXCEPTIONS.ui_custom_exception import invalid_option, invalid_option_for_report
 from MY_CUSTOM_EXCEPTIONS.validation_exceptions import invalid_day, invalid_month, invalid_year, invalid_date_character, multiple_dots_in_event_duration, invalid_event_duration_character, comma_not_supported_in_float_values, date_incomplete, vid_name_exception, vid_country_exception, vid_city_exception, vid_street_exception, vid_house_number_exception, vid_date_of_event, vid_description_of_event, vid_duration_of_event, vid_event_id_exception, vid_person_id_exception
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import repo_custom_exception, dublicated_id_exception, inexistent_event_id_exception, inexistent_person_id_exception, person_added_twice_to_event, no_other_event_to_add_to_person
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import repo_custom_exception, dublicated_id_exception, inexistent_event_id_exception, inexistent_person_id_exception, person_added_twice_to_event, no_other_event_to_add_to_person, no_person_to_delete_exception, no_event_to_delete_exception
 
 class UI:
     def __init__(self, controler_ev, controler_per, controlor_report):
@@ -135,12 +135,15 @@ class UI:
         print("ALEGETI UN ID DE PERSOANA, PENTRU A STERGE PERSOANA:\n")
         self.__controler_people.output_people()
         person_id = input("ID-ul persoanei: ")
-        rem_opp_fail = True
-        while rem_opp_fail:
+        rem_opp_continue = True
+        while rem_opp_continue:
             try:
                 self.__controler_people.remove_person(person_id)
                 print("Stergere realizata cu succes\n")
-                rem_opp_fail = False
+                rem_opp_continue = False
+            except no_person_to_delete_exception as ex:
+                rem_opp_continue = False
+                print(ex)
             except inexistent_person_id_exception as ex:
                 print(ex)
                 person_id = self.__read_person_id()
@@ -149,12 +152,15 @@ class UI:
         print("ALEGETI UN ID DE EVENT, PENTRU A STERGE EVENTUL:\n")
         self.__controler_events.output_events()
         event_id = input("ID-ul eventului: ")
-        rem_opp_fail = True
-        while rem_opp_fail:
+        rem_opp_continue = True
+        while rem_opp_continue:
             try:
-                self.__controler_event.remove_event(event_id)
+                self.__controler_events.remove_event(event_id)
                 print("Stergere realizata cu succes\n")
-                rem_opp_fail = False
+                rem_opp_continue = False
+            except no_event_to_delete_exception as ex:
+                rem_opp_continue = False
+                print(ex)
             except inexistent_event_id_exception as ex:
                 print(ex)
                 event_id = self.__read_person_id()
@@ -175,7 +181,7 @@ class UI:
                 self.__controler_people.update_person(person_id, person_name, country, city, street, number)
                 print("Modificare realizata cu succes\n")
                 update_opp_fail = False
-            except (vid_person_id_exception, dublicated_id_exception, inexistent_person_id_exception) as ex:
+            except (vid_person_id_exception, inexistent_person_id_exception) as ex:
                 print(ex)
                 person_id = self.__read_person_id()
 

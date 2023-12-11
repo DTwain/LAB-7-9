@@ -1,4 +1,4 @@
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_person_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_person_id_exception, no_person_to_delete_exception
 from DOMAIN.DTO import DTO_for_second_report
 class repo_people:
     """
@@ -28,6 +28,8 @@ class repo_people:
             raise dublicated_id_exception(person.get_person_id())
 
     def remove_person(self, id):
+        if len(self.__repo_people) == 0:
+            raise no_person_to_delete_exception()
         if id not in self.__repo_people:
             raise inexistent_person_id_exception(id)
         removed_person = self.__repo_people[id]

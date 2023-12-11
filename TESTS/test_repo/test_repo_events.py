@@ -3,7 +3,7 @@ import unittest
 from DOMAIN.event import event_class
 from DOMAIN.person_event import person_event_class
 from REPOSITORIES.repo_evenimente import repo_events
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import inexistent_event_id_exception, dublicated_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import inexistent_event_id_exception, dublicated_id_exception, no_event_to_delete_exception
 
 class test_repo_events(unittest.TestCase):
     def setUp(self):
@@ -33,7 +33,7 @@ class test_repo_events(unittest.TestCase):
         self.assertEqual(len(self.__repo), 0)
         self.assertEqual(deleted_event, event1)
 
-        with self.assertRaises(inexistent_event_id_exception):
+        with self.assertRaises(no_event_to_delete_exception):
             self.__repo.delete_event("1")
 
     def test_update_event_class(self):
