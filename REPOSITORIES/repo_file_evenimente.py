@@ -66,6 +66,9 @@ class repo_file_event(repo_events):
     def get_all_ids(self):
         return super().get_all_ids()
     
+    def get_shared_person_event_class(self):
+        return self.__shared_person_event_class
+    
     def __len__(self):
         return super().__len__()
     

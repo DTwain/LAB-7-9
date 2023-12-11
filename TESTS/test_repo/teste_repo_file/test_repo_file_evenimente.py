@@ -77,12 +77,12 @@ class test_repo_file_event(unittest.TestCase):
             self.__repo.delete_event("5")
 
     def test_update_event(self):
-        pre_updated_event = self.__repo.update_event(event_class("2", "15/7/2023", "150", "Serbarea clasei a 2 - a", person_event_class()), "2")
+        self.__repo.update_event(event_class("2", "15/7/2023", "150", "Serbarea clasei a 2 - a", self.__repo.get_shared_person_event_class()), "2")
         self.assertEqual(self.__repo.get_event_through_id("2").get_event_id(), "2")
         self.assertEqual(self.__repo.get_event_through_id("2").get_event_date(), "15/7/2023")
         self.assertEqual(self.__repo.get_event_through_id("2").get_event_duration(), "150")
         self.assertEqual(self.__repo.get_event_through_id("2").get_event_description(), "Serbarea clasei a 2 - a")
-        self.assertEqual(pre_updated_event.get_number_of_people_joined_to_event(), 3)
+        self.assertEqual(self.__repo.get_event_through_id("2").get_number_of_people_joined_to_event(), 3)
 
         with self.assertRaises(Exception):
             self.__repo.update_event(event_class("2", "", "150", "Serbarea clasei a 2 - a", person_event_class()), "5")
