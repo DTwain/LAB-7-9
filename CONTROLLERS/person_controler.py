@@ -1,11 +1,10 @@
 from DOMAIN.person import person_class
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import event_added_twice_to_person, no_other_event_to_add_to_person
 class person_controler:
     """
     Controller class for managing person objects.
     """
 
-    def __init__(self, repo_pers, pers_validator, event_controler):
+    def __init__(self, repo_pers, pers_validator, shared_person_event_class):
         """
         Initialize a person_controler object.
 
@@ -16,7 +15,7 @@ class person_controler:
         """
         self.__repo_person = repo_pers
         self.__person_validator = pers_validator
-        self.__event_controler = event_controler
+        self.shared_person_event_class = shared_person_event_class
 
     def add_person(self, id, name, country, city, street, number_of_the_house):
         """
@@ -33,7 +32,7 @@ class person_controler:
         Returns:
         - person_obj (Person): The added person object.
         """
-        person_obj = person_class(id, name, country, city, street, number_of_the_house)
+        person_obj = person_class(id, name, country, city, street, number_of_the_house, self.shared_person_event_class)
         self.__person_validator.person_validation(person_obj)
         self.__repo_person.add_person_to_rep(person_obj)
         return person_obj
@@ -66,7 +65,7 @@ class person_controler:
         Returns:
         - preupdate_person (Person): The person object before the update.
         """
-        new_person_obj = person_class(id, name, country, city, street, number_of_the_house)
+        new_person_obj = person_class(id, name, country, city, street, number_of_the_house, self.shared_person_event_class)
         self.__person_validator.person_validation_for_update(new_person_obj)
         default_person = self.__repo_person.get_person_through_id(id)
         if new_person_obj.get_person_name() != "":
@@ -81,29 +80,6 @@ class person_controler:
             default_person.set_number_of_the_house(new_person_obj.get_number_of_the_house())
         preupdate_person = self.__repo_person.update_person(default_person, id)
         return preupdate_person
-    
-    def add_event_to_person(self, person_id, event_id):
-        """
-        Add an event to a person.
-
-        Parameters:
-        - person_id (int): The ID of the person.
-        - event_id (int): The ID of the event to be added.
-
-        Returns:
-        - None
-        """
-        if self.__event_controler.find_event_by_id(event_id):
-            pass
-        person_obj = self.__repo_person.get_person_through_id(person_id)
-        all_ids_of_events_person_obj_joined = person_obj.get_events_id()
-        if len(all_ids_of_events_person_obj_joined) == len(self.__event_controler):
-            raise no_other_event_to_add_to_person
-        if event_id in all_ids_of_events_person_obj_joined:
-            raise event_added_twice_to_person(event_id)
-        self.__event_controler.inc_number_of_people_joined_to_event(event_id)
-        person_obj.add_event_to_person(event_id)
-        self.__repo_person.update_person(person_obj, person_obj.get_person_id())
     
     def find_person_by_id(self, person_id):
         """

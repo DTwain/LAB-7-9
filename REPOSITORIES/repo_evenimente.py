@@ -1,4 +1,4 @@
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_event_id_exception
 from DOMAIN.DTO import DTO_for_third_report
 class repo_events:
     """
@@ -29,14 +29,15 @@ class repo_events:
 
     def delete_event(self, id):
         if id not in self.__repo_events:
-            raise inexistent_id_exception(id)
-        event_sters = self.__repo_events[id]
+            raise inexistent_event_id_exception(id)
+        removed_event = self.__repo_events[id]
+        removed_event.remove_any_connections_with_event_id()
         del self.__repo_events[id]
-        return event_sters
+        return removed_event
     
     def update_event(self, event, id):
         if id not in self.__repo_events:
-            raise inexistent_id_exception(id)
+            raise inexistent_event_id_exception(id)
         old_event = self.__repo_events[id]
         self.__repo_events[id] = event
         return old_event
@@ -44,7 +45,7 @@ class repo_events:
 
     def get_event_through_id(self, event_id):
         if event_id not in self.__repo_events:
-            raise inexistent_id_exception(event_id)
+            raise inexistent_event_id_exception(event_id)
         return self.__repo_events[event_id]
     
     def get_events_that_corespond_to_id(self, id_list):
@@ -73,7 +74,7 @@ class repo_events:
         list_of_DTO_obj_for_third_report = []
         for event_id in self.__repo_events:
             event = repo_events.get_event_through_id(self, event_id)
-            DTO_obj = DTO_for_third_report(event.get_event_id(), event.get_number_of_people_joined())
+            DTO_obj = DTO_for_third_report(event.get_event_id(), event.get_number_of_people_joined_to_event())
             list_of_DTO_obj_for_third_report.append(DTO_obj)
         return list_of_DTO_obj_for_third_report
 
@@ -93,7 +94,7 @@ class repo_events:
         Returns:
         - all_ids (list): A list of all event IDs in the repository.
         """
-        return list(self.__repo_events.keys())
+        return [str(key) for key in self.__repo_events.keys()]
 
     def __len__(self):
         """

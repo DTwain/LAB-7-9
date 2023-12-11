@@ -28,7 +28,6 @@ class address_class:
     
     def set_number_of_the_house(self, new_number):
         self.__number = new_number
-        
     
     def __str__(self):
         return "Tara:      " + self.__country + "\nOras:      " + self.__city + "\nStrada:    " + self.__street + "\nNumar:     " + self.__number

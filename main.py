@@ -7,22 +7,50 @@ from REPOSITORIES.repo_file_persoane import repo_file_people
 from REPOSITORIES.repo_file_evenimente import repo_file_event
 from UI.run_console import UI
 
+#sterse dupa
+from REPOSITORIES.repo_evenimente import repo_events
+from REPOSITORIES.repo_persoane import repo_people
+from DOMAIN.person_event import person_event_class
+import random
+from UTILS.generators import date_generator, string_generator, event_duration_generator
+
 from TESTS.combine_all_tests import test_suite
+
 if __name__ == '__main__':
-    r_events = repo_file_event("D:/INFO 2/FP lab/LAB 7-9/DATA_BASE/evenimente.txt")
-    r_people = repo_file_people("D:/INFO 2/FP lab/LAB 7-9/DATA_BASE/persoane.txt")
+    r_events = repo_file_event("DATA_BASE/evenimente.txt")
+    r_people = repo_file_people("DATA_BASE/persoane.txt")
+
 
     person_validator = valid_person()
     event_validator = valid_event()
 
-    ev_controler = event_controler(r_events, event_validator)
-    pers_controler = person_controler(r_people, person_validator, ev_controler)
-    rrr_controler = report_controler(r_people, r_events)
+    shared_person_event_class = person_event_class()
 
+    ev_controler = event_controler(r_events, event_validator, r_people, shared_person_event_class)
+    pers_controler = person_controler(r_people, person_validator, shared_person_event_class)
+    rrr_controler = report_controler(r_people, r_events, shared_person_event_class)
 
     test_suite()
     ui = UI(ev_controler, pers_controler, rrr_controler)
     ui.run_C()
+
+    # random.seed(10)
+    # for _ in range(15):
+    #     print(date_generator())
+
+    # print("-------------------------")
+    # for _ in range(15):
+    #     print(string_generator(5))
+
+    # print("-------------------------")
+    # for _ in range(15):
+    #     print(event_duration_generator())
+
+    # ev_controler.output_events()
+    # print("------------------------------------------------")
+    # pers_controler.output_people()
+
+    
 
     
     

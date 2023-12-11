@@ -1,6 +1,6 @@
 import math
 class report_controler:
-    def __init__(self, repo_people, repo_events):
+    def __init__(self, repo_people, repo_events, shared_person_event_class):
         """
         Initializes a report_controler object with repositories for people and events.
 
@@ -10,6 +10,7 @@ class report_controler:
         """
         self.__repo_people = repo_people
         self.__repo_events = repo_events
+        self.__shared_person_event_class = shared_person_event_class
     
     def first_report(self, person_id):
         """
@@ -22,7 +23,7 @@ class report_controler:
         - sorted_event_list (list): A list of events.
         """
         person = self.__repo_people.get_person_through_id(person_id)
-        events_indentificator = person.get_events_id() # lista id-urilor la care participa persoana cu person_id
+        events_indentificator = person.get_event_ids_that_corespond_to_person_id() # lista id-urilor la care participa persoana cu person_id
         event_list = self.__repo_events.get_events_that_corespond_to_id(events_indentificator)
         sorted_event_list = sorted(event_list, key = lambda event: event.get_event_description())
         return sorted_event_list

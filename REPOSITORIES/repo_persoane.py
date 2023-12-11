@@ -1,4 +1,4 @@
-from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_id_exception
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import dublicated_id_exception, inexistent_person_id_exception
 from DOMAIN.DTO import DTO_for_second_report
 class repo_people:
     """
@@ -29,8 +29,9 @@ class repo_people:
 
     def remove_person(self, id):
         if id not in self.__repo_people:
-            raise inexistent_id_exception(id)
+            raise inexistent_person_id_exception(id)
         removed_person = self.__repo_people[id]
+        removed_person.remove_any_connections_with_person_id()
         del self.__repo_people[id]
         return removed_person
         
@@ -40,21 +41,21 @@ class repo_people:
         id (str): Un string care reprezinta ID-ul persoanei.
         """
         if id not in self.__repo_people:
-            raise inexistent_id_exception(id)
+            raise inexistent_person_id_exception(id)
         preupdate_person = self.__repo_people[id]
         self.__repo_people[id] = updated_person
         return preupdate_person
     
     def get_person_through_id(self, person_id):
         if person_id not in self.__repo_people:
-            raise inexistent_id_exception(person_id)
+            raise inexistent_person_id_exception(person_id)
         return self.__repo_people[person_id]
 
     def get_list_of_DTO_objs(self):
         list_with_number_of_events_person_joined = []
         for person_id in self.__repo_people:
             person = repo_people.get_person_through_id(self, person_id)
-            DTO_id_person_number_of_events = DTO_for_second_report(person.get_person_id(), person.number_of_events_added())
+            DTO_id_person_number_of_events = DTO_for_second_report(person.get_person_id(), person.get_number_of_events_person_joined())
             list_with_number_of_events_person_joined.append(DTO_id_person_number_of_events)
         return list_with_number_of_events_person_joined
 
@@ -62,9 +63,9 @@ class repo_people:
         return [self.__repo_people[person_id] for person_id in self.__repo_people]
     
     def get_all_ids(self):
-        return list(self.__repo_people.keys())
+        return [str(key) for key in self.__repo_people.keys()]
     
-    def size(self):
+    def __len__(self):
         return len(self.__repo_people)
     
     def output(self):

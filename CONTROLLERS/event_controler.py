@@ -1,11 +1,11 @@
 from DOMAIN.event import event_class
-
+from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import no_other_event_to_add_to_person
 class event_controler:
     """
     Controller class for managing events.
     """
 
-    def __init__(self, repo_events, event_validator) -> None:
+    def __init__(self, repo_events, event_validator, repo_people, shared_person_event_class) -> None:
         """
         Initializes the event controller.
 
@@ -15,6 +15,8 @@ class event_controler:
         """
         self.__repository_events = repo_events
         self.__event_validator = event_validator
+        self.__repository_people = repo_people
+        self.shared_person_event_class = shared_person_event_class
 
     def add_event(self, id, date, duration, description):
         """
@@ -30,7 +32,7 @@ class event_controler:
             event_class: The added event object.
         """
         id = str(id)
-        event_obj = event_class(id, date, duration, description)
+        event_obj = event_class(id, date, duration, description, self.shared_person_event_class)
         self.__event_validator.event_validation(event_obj)
         self.__repository_events.add_event(event_obj)
         return event_obj
@@ -61,7 +63,7 @@ class event_controler:
         Returns:
             event_class: The old event object before the update.
         """
-        updated_event = event_class(id, date, duration, description)
+        updated_event = event_class(id, date, duration, description, self.shared_person_event_class)
         self.__event_validator.event_validation_for_update(updated_event)
         default_event = self.__repository_events.get_event_through_id(id)
         if updated_event.get_event_date() != "":
@@ -107,20 +109,15 @@ class event_controler:
                     yield event
                     break
                 
-    def inc_number_of_people_joined_to_event(self, event_id):
-        """
-        Increases the number of people joined to an event.
-
-        Args:
-            event_id (str): The event ID.
-        """
+    def controler_add_person_to_event(self, person_id, event_id):
         event = self.__repository_events.get_event_through_id(event_id)
-        event.inc_number_of_participants()
-        self.__repository_events.update_event(event, event_id)
-    
+        person = self.__repository_people.get_person_through_id(person_id)
+        if person.get_number_of_events_person_joined() == len(self.__repository_events):
+            raise no_other_event_to_add_to_person(person_id)
+        event.add_person_to_event(person_id)
+
     def __len__(self):
         return len(self.__repository_events)
-
 
     def output_events(self):
         """
