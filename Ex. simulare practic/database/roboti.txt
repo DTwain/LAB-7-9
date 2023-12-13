@@ -1,4 +1,4 @@
 1;36;find Nemo;up,right,down,halt,right
 2;33;ana are mere;up,up,down,halt,right,right,up
-3;31;ana are mere;right,down,down,down,left,halt
+3;65;ana are mere;right,down,down,down,left,halt
 

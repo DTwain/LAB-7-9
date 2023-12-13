@@ -1,5 +1,6 @@
 from domain.robot import robot_class
 from my_custom_exceptions import already_in_repo, inexistent_robot
+import shutil
 class repo_robot:
     def __init__(self):
         self.__roboti = {}
@@ -18,9 +19,9 @@ class repo_robot:
         return self.__roboti[str(id)]
     
     def clear_repo(self):
-        keys = self.__repo.keys()
+        keys = self.__roboti.keys()
         for key in keys:
-            del self.__repo[key]
+            del self.__roboti[key]
 
     
 class repo_file_robot(repo_robot):
@@ -68,3 +69,9 @@ class repo_file_robot(repo_robot):
 
     def get_all(self):
         return super().get_all()
+    
+    def get_robot_by_id(self, id):
+        return super().get_robot_by_id(id)
+    
+    def clear_repo(self):
+        super().clear_repo()

@@ -13,10 +13,7 @@ class service_cerinte:
         for ind in range(len(rezultat)):
             rezultat[ind] = self.__repo.get_robot_by_id(rezultat[ind])
         rezultat.sort(key=lambda x:x.get_robot_battery())
-        rezultat_as_str = ""
-        for robot in rezultat:
-            rezultat_as_str += str(robot.get_robot_id()) + ", "
-        return rezultat_as_str[:-2]
+        return rezultat
 
     def cerinta_2(self, x_start, y_start):
         x_start, y_start = int(x_start), int(y_start)

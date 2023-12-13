@@ -13,7 +13,8 @@ class ui:
             if cerinta_1 == None:
                 print("Nu s-a gasit substringul in descrierile robotilor")
             else:
-                print(cerinta_1)
+                for robot in cerinta_1:
+                    print(f"{robot}\n")
 
         elif cerinta == '2':
             print("introduceti coordonatele:")
