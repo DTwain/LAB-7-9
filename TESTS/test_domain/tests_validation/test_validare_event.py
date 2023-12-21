@@ -77,20 +77,20 @@ class test_validare_event(unittest.TestCase):
     def test_validare_event_with_random_generated_cases(self):
         random.seed(10)
 
-        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        event = event_class(id_generator([]), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
         self.assertRaises(event_validation_exception, self.__event_validator.event_validation, event)
 
-        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        event = event_class(id_generator([8723]), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
         self.assertRaises(event_validation_exception, self.__event_validator.event_validation, event)
         
-        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        event = event_class(id_generator([8723, -8933]), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
         self.__event_validator.event_validation(event)
 
-        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        event = event_class(id_generator([8723, -8933, 4053]), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
         self.assertRaises(event_validation_exception, self.__event_validator.event_validation, event)
 
-        event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
-        self.__event_validator.event_validation(event)
+        event = event_class(id_generator([8723, -8933, 4053, 5812]), date_generator(), event_duration_generator(), string_generator(), self.__shared_person_event_class)
+        self.assertRaises(event_validation_exception, self.__event_validator.event_validation, event)
 
 
 

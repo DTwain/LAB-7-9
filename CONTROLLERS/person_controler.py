@@ -1,5 +1,6 @@
 from DOMAIN.person import person_class
 from UTILS.generators import id_generator, string_generator, person_number_of_the_house_generator
+from MY_CUSTOM_EXCEPTIONS.validation_exceptions import person_validation_exception
 class person_controler:
     """
     Controller class for managing person objects.
@@ -119,13 +120,19 @@ class person_controler:
                     break
     
     def add_people_with_random_data(self, nr):
-        for _ in range(nr):
-            person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.shared_person_event_class)
+        cnt = 0
+        while cnt < nr:
+            person = person_class(id_generator(self.__repo_person.get_all_ids()), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.shared_person_event_class)
             try:
                 self.__person_validator.person_validation(person)
-                self.__repo_person.add_person_to_rep(person)
-            except Exception:
+            except person_validation_exception:
                 pass
+            else:
+                self.__repo_person.add_person_to_rep(person)
+                cnt += 1
+
+    def __len__(self):
+        return len(self.__repo_person)
 
     def output_people(self):
         """

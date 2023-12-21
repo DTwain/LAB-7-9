@@ -116,5 +116,8 @@ class test_person_controler(unittest.TestCase):
         self.assertEqual(next(generator), self.__person_controler.find_person_by_id("12AB"))
         self.assertRaises(StopIteration, next, generator)
     
+    def test_add_x_random_people(self):
+        self.__person_controler.add_people_with_random_data(10)
+        self.assertEqual(len(self.__person_controler), 13)
 
 

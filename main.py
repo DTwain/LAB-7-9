@@ -26,6 +26,9 @@ if __name__ == '__main__':
     test_suite()
     ui = UI(ev_controler, pers_controler, rrr_controler)
     ui.run_C()
+    
+
+
 
     
 

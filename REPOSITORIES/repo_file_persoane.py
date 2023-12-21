@@ -21,6 +21,7 @@ class repo_file_people(repo_people):
             if len(line_elements) > 6:
                 events_id = line_elements[6].split(',')
                 for event_id in events_id:
+                    event_id = event_id.strip()
                     person.add_person_to_event(event_id)
             super().add_person_to_rep(person)
             line = file.readline().strip()

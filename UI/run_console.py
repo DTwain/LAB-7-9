@@ -27,6 +27,8 @@ class UI:
         print("< 10 >   Rapoarte < evenimente > | < persoane >")
         print("< 11 >   Adauga < nr > persoane cu date random")
         print("< 12 >   Adauga < nr > evenimente cu date random")
+        print("< 13 >   Afiseaza persoanele")
+        print("< 14 >   Afiseaza evenimentele")
 
 
     def __sub_menu_for_reports(self):
@@ -323,12 +325,24 @@ class UI:
     def __add_people_with_random_data(self):
         print("Introduceti cate persoane doriti sa generati si cele care trec de validare sa fie adaugate")
         nr = int(input("NR. PERSOANE: "))
-        self.__controler_people.add_people_with_random_data(nr)
+        try:
+            self.__controler_people.add_people_with_random_data(nr)
+        except repo_custom_exception as ex:
+            print(ex)
 
     def __add_events_with_random_data(self):
         print("Introduceti cate evenimente doriti sa generati si cele care trec de validare sa fie adaugate")
         nr = int(input("NR. EVENTS: "))
-        self.__controler_events.add_events_with_random_data(nr)
+        try:
+            self.__controler_events.add_events_with_random_data(nr)
+        except repo_custom_exception as ex:
+            print(ex)
+
+    def __output_people(self):
+        self.__controler_people.output_people()
+
+    def __output_events(self):
+        self.__controler_events.output_events()
 
     def run_C(self):
         self.__main_menu()
@@ -371,6 +385,10 @@ class UI:
                 self.__add_people_with_random_data()
             elif option == '12':
                 self.__add_events_with_random_data()
+            elif option == '13':
+                self.__output_people()
+            elif option == '14':
+                self.__output_events()
 
             option = input("\nDoriti sa mai efectuati o alta operatie? < DA > / < NU >: ").strip()
             if option.upper() == "NU":

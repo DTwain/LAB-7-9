@@ -21,6 +21,7 @@ class repo_file_event(repo_events):
             if len(line_elements) > 4 and line_elements[4] != '':
                 people_ids = line_elements[4].split(',')
                 for person_id in people_ids:
+                    person_id = person_id.strip()
                     event.add_person_to_event(person_id)
             super().add_event(event)
             line = file.readline().strip()

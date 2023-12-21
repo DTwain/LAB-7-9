@@ -121,6 +121,9 @@ class test_event_controler(unittest.TestCase):
         with self.assertRaises(person_added_twice_to_event):
             self.__event_controler.controler_add_person_to_event(person_id, event_id)
 
+    def test_add_x_random_event(self):
+        self.__event_controler.add_events_with_random_data(10)
+        self.assertEqual(len(self.__event_controler), 13)
 
 
 

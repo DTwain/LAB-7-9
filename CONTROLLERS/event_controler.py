@@ -1,6 +1,7 @@
 from DOMAIN.event import event_class
 from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import no_other_event_to_add_to_person
 from UTILS.generators import id_generator, date_generator, event_duration_generator, string_generator
+from MY_CUSTOM_EXCEPTIONS.validation_exceptions import event_validation_exception
 class event_controler:
     """
     Controller class for managing events.
@@ -121,13 +122,16 @@ class event_controler:
         return len(self.__repository_events)
     
     def add_events_with_random_data(self, nr):
-        for _ in range(nr):
-            event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.shared_person_event_class)
+        cnt = 0
+        while cnt < nr:
+            event = event_class(id_generator(self.__repository_events.get_all_ids()), date_generator(), event_duration_generator(), string_generator(), self.shared_person_event_class)
             try:
                 self.__event_validator.event_validation(event)
-                self.__repository_events.add_event(event)
-            except Exception:
+            except event_validation_exception:
                 pass
+            else:
+                self.__repository_events.add_event(event)
+                cnt += 1
 
 
     def output_events(self):

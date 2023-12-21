@@ -1,9 +1,9 @@
 import random
 import string
 
-def id_generator() -> str:
-    random_id = random.randrange(-100, 100)
-    return str(random_id)
+def id_generator(list_with_current_ids) -> str:
+    ls = [id for id in range(-10000, 10001) if str(id) not in list_with_current_ids]
+    return str(random.choice(ls))
 
 def date_generator() -> str:
     random_day = random.randint(-31, 40)  

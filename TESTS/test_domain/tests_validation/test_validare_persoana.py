@@ -85,17 +85,17 @@ class test_validare_persoana(unittest.TestCase):
     def test_person_validation_with_random_generated_cases(self):
         random.seed(10)
 
-        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        person = person_class(id_generator([]), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
         self.assertRaises(person_validation_exception, self.__event_validator.person_validation, person)
 
-        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        person = person_class(id_generator([8723]), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
         self.__event_validator.person_validation(person)
 
-        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        person = person_class(id_generator([8723, -8933]), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
         self.__event_validator.person_validation(person)
 
-        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        person = person_class(id_generator([8723, -8933, 4053]), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
         self.assertRaises(person_validation_exception, self.__event_validator.person_validation, person)
 
-        person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
+        person = person_class(id_generator([8723, -8933, 4053, 5812]), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.__shared_person_event_class)
         self.assertRaises(person_validation_exception, self.__event_validator.person_validation, person)
