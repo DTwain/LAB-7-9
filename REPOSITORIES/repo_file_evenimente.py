@@ -37,6 +37,8 @@ class repo_file_event(repo_events):
             event_as_string += ';' + event.get_event_duration() + ';' + event.get_event_description()
             if str(event.get_list_of_people_ids_that_joined_event() != ''):
                 event_as_string += ';' + str(event.get_list_of_people_ids_that_joined_event()) + '\n'
+            else:
+                event_as_string += '\n'
             file.write(event_as_string)
         file.close()
         

@@ -25,6 +25,9 @@ class UI:
         print("< 8 >    Cauta < persoana >")
         print("< 9 >    Inscrie < persoana > la < eveniment >")
         print("< 10 >   Rapoarte < evenimente > | < persoane >")
+        print("< 11 >   Adauga < nr > persoane cu date random")
+        print("< 12 >   Adauga < nr > evenimente cu date random")
+
 
     def __sub_menu_for_reports(self):
         print("Alegeti un raport:")
@@ -238,6 +241,7 @@ class UI:
         #     assert True
     
     def __find_event_using_key_words(self):
+        self.__controler_events.output_events()
         print("TUTORIAL:")
         print("VOM FOLOSI UN MECANISM DE CAUTARE A EVENIMENTELOR FILOSIND KEY - VALUES:")
         print("VALORILE CHEIE POT FI SCRISE PE MAI MULTE LINII.")
@@ -316,6 +320,15 @@ class UI:
         for person in first_20_percent_of_events_with_max_participants:
             print(f"{person}\n")
 
+    def __add_people_with_random_data(self):
+        print("Introduceti cate persoane doriti sa generati si cele care trec de validare sa fie adaugate")
+        nr = int(input("NR. PERSOANE: "))
+        self.__controler_people.add_people_with_random_data(nr)
+
+    def __add_events_with_random_data(self):
+        print("Introduceti cate evenimente doriti sa generati si cele care trec de validare sa fie adaugate")
+        nr = int(input("NR. EVENTS: "))
+        self.__controler_events.add_events_with_random_data(nr)
 
     def run_C(self):
         self.__main_menu()
@@ -354,6 +367,10 @@ class UI:
                         continue
                     elif continue_stop.upper() == "NU":
                         break
+            elif option == '11':
+                self.__add_people_with_random_data()
+            elif option == '12':
+                self.__add_events_with_random_data()
 
             option = input("\nDoriti sa mai efectuati o alta operatie? < DA > / < NU >: ").strip()
             if option.upper() == "NU":

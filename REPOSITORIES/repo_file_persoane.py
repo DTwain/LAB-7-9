@@ -38,6 +38,8 @@ class repo_file_people(repo_people):
             person_as_string += person.get_number_of_the_house()
             if str(person.get_list_of_events_ids_that_person_joined()) != '':
                 person_as_string += ";" + str(person.get_list_of_events_ids_that_person_joined()) + '\n'
+            else:
+                person_as_string += '\n'
             file.write(person_as_string)
         file.close()
 

@@ -1,4 +1,5 @@
 from DOMAIN.person import person_class
+from UTILS.generators import id_generator, string_generator, person_number_of_the_house_generator
 class person_controler:
     """
     Controller class for managing person objects.
@@ -117,6 +118,15 @@ class person_controler:
                     yield person
                     break
     
+    def add_people_with_random_data(self, nr):
+        for _ in range(nr):
+            person = person_class(id_generator(), string_generator(), string_generator(), string_generator(), string_generator(), person_number_of_the_house_generator(), self.shared_person_event_class)
+            try:
+                self.__person_validator.person_validation(person)
+                self.__repo_person.add_person_to_rep(person)
+            except Exception:
+                pass
+
     def output_people(self):
         """
         Output all people in the repository.

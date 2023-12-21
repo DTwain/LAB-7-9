@@ -41,7 +41,7 @@ class test_repo_file_people(unittest.TestCase):
         with open("TESTS/test_repo/teste_repo_file/test_repo_file_people.txt", "r") as file:
             lines = file.readlines()
             self.assertEqual(len(lines), 1)
-            self.assertEqual(lines[0], "2;Obreja David;Romania;Cluj Napoca;Aurel Vlaicu;12E")
+            self.assertEqual(lines[0], "2;Obreja David;Romania;Cluj Napoca;Aurel Vlaicu;12E\n")
 
     def test_add_person_to_rep(self):
         person = person_class("3", "Plaiu Rares", "Romania", "Botosani", "Veteranilor", "31C", self.__repo.get_shared_person_event_class())

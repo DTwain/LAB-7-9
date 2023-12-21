@@ -1,5 +1,6 @@
 from DOMAIN.event import event_class
 from MY_CUSTOM_EXCEPTIONS.repo_custom_exception import no_other_event_to_add_to_person
+from UTILS.generators import id_generator, date_generator, event_duration_generator, string_generator
 class event_controler:
     """
     Controller class for managing events.
@@ -118,6 +119,16 @@ class event_controler:
 
     def __len__(self):
         return len(self.__repository_events)
+    
+    def add_events_with_random_data(self, nr):
+        for _ in range(nr):
+            event = event_class(id_generator(), date_generator(), event_duration_generator(), string_generator(), self.shared_person_event_class)
+            try:
+                self.__event_validator.event_validation(event)
+                self.__repository_events.add_event(event)
+            except Exception:
+                pass
+
 
     def output_events(self):
         """
