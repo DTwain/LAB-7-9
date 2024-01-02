@@ -122,16 +122,17 @@ class event_controler:
         return len(self.__repository_events)
     
     def add_events_with_random_data(self, nr):
-        cnt = 0
-        while cnt < nr:
-            event = event_class(id_generator(self.__repository_events.get_all_ids()), date_generator(), event_duration_generator(), string_generator(), self.shared_person_event_class)
-            try:
-                self.__event_validator.event_validation(event)
-            except event_validation_exception:
-                pass
-            else:
-                self.__repository_events.add_event(event)
-                cnt += 1
+        if nr == 0:
+            return 
+        event = event_class(id_generator(self.__repository_events.get_all_ids()), date_generator(), event_duration_generator(), string_generator(), self.shared_person_event_class)
+        try:
+            self.__event_validator.event_validation(event)
+        except event_validation_exception:
+            event_controler.add_events_with_random_data(self, nr)
+        else:
+            self.__repository_events.add_event(event)
+            event_controler.add_events_with_random_data(self, nr - 1)
+        
 
 
     def output_events(self):

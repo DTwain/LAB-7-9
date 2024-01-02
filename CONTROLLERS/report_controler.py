@@ -1,4 +1,5 @@
 import math
+from UTILS.sort import shell_sort, bubble_sort
 class report_controler:
     def __init__(self, repo_people, repo_events, shared_person_event_class):
         """
@@ -62,7 +63,7 @@ class report_controler:
         - list_of_twenty_percent_of_events (list): A list of events.
         """
         list_with_dto_objs_for_third_report = self.__repo_events.get_list_of_DTO_obj_for_third_report()
-        sorted_list_of_dto_obj = sorted(list_with_dto_objs_for_third_report, key = lambda dto_obj : dto_obj.get_number_of_people(), reverse = True )
+        sorted_list_of_dto_obj = shell_sort(list_with_dto_objs_for_third_report, key = lambda dto_obj : dto_obj.get_number_of_people(), reverse = True)
         twenty_percent_of_events = math.ceil(0.2 * len(sorted_list_of_dto_obj))
         list_of_twenty_percent_of_events = []
         for DTO_OBJ in sorted_list_of_dto_obj[:twenty_percent_of_events]:

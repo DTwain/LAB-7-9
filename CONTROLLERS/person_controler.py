@@ -95,8 +95,8 @@ class person_controler:
         """
         return self.__repo_person.get_person_through_id(person_id)
     
-    def find_people_using_key_words(self, list_of_key_words):
-        """
+    """def find_people_using_key_words(self, list_of_key_words):
+        
         Find people using a list of key words.
 
         Parameters:
@@ -104,7 +104,7 @@ class person_controler:
 
         Yields:
         - person (Person): The found person object.
-        """
+        
         people = self.__repo_person.get_all()
         for person in people:
             person_id = person.get_person_id().lower()
@@ -118,6 +118,41 @@ class person_controler:
                 if key_word == person_id or key_word in person_name or key_word in person_country or key_word in person_city or key_word in person_street or key_word == person_number_of_the_house:
                     yield person
                     break
+    """
+    def find_people_using_key_words(self, list_of_key_words, index_person=0, index_key_word=0):
+        people_list = self.__repo_person.get_all()
+
+        if index_person == len(people_list):
+            return
+        if index_key_word == len(list_of_key_words):
+            yield from person_controler.find_people_using_key_words(self, list_of_key_words, index_person + 1)
+            return
+        person = people_list[index_person]
+
+        person_id = person.get_person_id().lower()
+        person_name = person.get_person_name().lower()
+        person_country = person.get_country().lower()
+        person_city = person.get_city().lower()
+        person_street = person.get_street().lower()
+        person_number_of_the_house = person.get_number_of_the_house().lower()
+
+        key_word = list_of_key_words[index_key_word].lower()
+        match_found = (
+            key_word == person_id
+            or key_word in person_name
+            or key_word in person_country
+            or key_word in person_city
+            or key_word in person_street
+            or key_word == person_number_of_the_house
+        )
+
+        if match_found:
+            yield person
+
+        if match_found or index_key_word + 1 == len(list_of_key_words):
+            yield from person_controler.find_people_using_key_words(self, list_of_key_words, index_person + 1)
+        else:
+            yield from person_controler.find_people_using_key_words(self, list_of_key_words, index_person, index_key_word + 1)
     
     def add_people_with_random_data(self, nr):
         cnt = 0

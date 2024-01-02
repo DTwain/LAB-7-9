@@ -33,7 +33,7 @@ class event_class:
     
     def remove_any_connections_with_event_id(self):
         self.shared_person_event_class.remove_event_id_from_all_lists(self.__id)
-
+    
     def get_number_of_people_joined_to_event(self):
         return self.shared_person_event_class.get_number_of_people_joined_to_event(self.__id)
     
@@ -41,7 +41,7 @@ class event_class:
         return self.shared_person_event_class.get_list_of_people_ids_that_joined_event(self.__id)
     
     def __eq__(self, obj) -> bool:
-        return self.__id == obj.__id 
+        return self.__id == obj.__id
         
     def __str__(self):
         number_of_people_joined_to_event = self.shared_person_event_class.get_number_of_people_joined_to_event(self.__id)

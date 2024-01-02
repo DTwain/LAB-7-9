@@ -12,6 +12,7 @@ from TESTS.test_repo.teste_repo_file.test_repo_file_evenimente import test_repo_
 from TESTS.test_repo.teste_repo_file.test_repo_file_persoane import test_repo_file_people
 from TESTS.test_domain.tests_validation.test_validare_event import test_validare_event
 from TESTS.test_domain.tests_validation.test_validare_persoana import test_validare_persoana
+from TESTS.test_sort import test_shell_sort, test_bubble_sort
 
 def test_suite():
     test_suite = unittest.TestSuite()
@@ -28,5 +29,7 @@ def test_suite():
     test_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(test_repo_file_people))
     test_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(test_validare_event))
     test_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(test_validare_persoana))
+    test_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(test_shell_sort))
+    test_suite.addTests(unittest.TestLoader().loadTestsFromTestCase(test_bubble_sort))
     unittest.TextTestRunner(verbosity = 1).run(test_suite)
 

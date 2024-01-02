@@ -9,6 +9,8 @@ from UI.run_console import UI
 from DOMAIN.person_event import person_event_class
 from TESTS.combine_all_tests import test_suite
 
+from UTILS.sort import shell_sort, bubble_sort
+
 if __name__ == '__main__':
     r_events = repo_file_event("DATA_BASE/evenimente.txt")
     r_people = repo_file_people("DATA_BASE/persoane.txt")
@@ -26,11 +28,3 @@ if __name__ == '__main__':
     test_suite()
     ui = UI(ev_controler, pers_controler, rrr_controler)
     ui.run_C()
-    
-
-
-
-    
-
-    
-    
