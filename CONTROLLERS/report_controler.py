@@ -26,7 +26,7 @@ class report_controler:
         person = self.__repo_people.get_person_through_id(person_id)
         events_indentificator = person.get_event_ids_that_corespond_to_person_id() # lista id-urilor la care participa persoana cu person_id
         event_list = self.__repo_events.get_events_that_corespond_to_id(events_indentificator)
-        sorted_event_list = sorted(event_list, key = lambda event: event.get_event_description())
+        sorted_event_list = bubble_sort(event_list, key = lambda event: event.get_event_description())
         return sorted_event_list
     
     def second_report(self):
