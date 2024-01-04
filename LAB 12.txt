@@ -1,0 +1,13 @@
+LAB 12
+
+1. recursivitate
+
+add_event_wisth_random_data implementata recursiv
+find_people_using_key_words implemantatat recursiv
+
+2. sortari
+
+bubble_sort
+shell_sort 
+
+implementate dupa functia  """sorted"""
